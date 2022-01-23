@@ -1,7 +1,8 @@
 import React from "react";
+import Deck from "./Deck";
 
 function DeckList() {
-    return <h1>This is where the DeckList will be</h1>
+    return <Deck />
 }
 
 export default DeckList;
