@@ -6,9 +6,13 @@ import View from "../buttons/View";
 function DeckPreview({deck}) {
     return (
         <div>
-            <View id={deck.id}/>
-            <Study id={deck.id}/>
-            <Delete id={deck.id}/>
+            <h3>{deck.name}</h3>
+            <p>{deck.description}</p>
+            <div>
+                <View id={deck.id}/>
+                <Study id={deck.id}/>
+                <Delete id={deck.id}/>
+            </div>
         </div>
     );
 }
