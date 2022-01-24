@@ -5,6 +5,7 @@ import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
 import Deck from "./deck/Deck";
+import CreateDeck from "./buttons/CreateDeck";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
@@ -32,6 +33,7 @@ function Layout() {
         {/* TODO: Implement the screen starting here */}
         <Switch>
           <Route path={path}>
+            <CreateDeck />
             <DeckList decks={decks}/>
           </Route>
           <Route path="/decks/:deckId">
