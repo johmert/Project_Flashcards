@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import {listDecks} from "../utils/api/index"
+import {deleteDeck, listDecks} from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
@@ -24,12 +24,13 @@ function Layout() {
     }
   }, []);
 
-  const handleDelete = () => {
+  async function handleDelete(id){
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
-        // handle delete
-        console.log(`Deck deleted`);
+        await deleteDeck(id, signal);
+        const response = await listDecks(signal);
+        setDecks(response);
     }
-};
+}
 
   return (
     <>
