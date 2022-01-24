@@ -1,8 +1,18 @@
 import React from "react";
-import {Link} from "react-router-dom";
 
 function Delete({id}){
-    return <Link to={`/decks/${id}/study`}>Delete</Link>
+    const handleDelete = () => {
+        if(window.confirm("Delete this deck?")){
+            // handle delete
+            console.log(`Deck ${id} deleted`);
+        }
+    };
+
+    return (
+        <div>
+            <button onClick={handleDelete}>Delete</button>
+        </div>  
+    );
 }
 
 export default Delete;
