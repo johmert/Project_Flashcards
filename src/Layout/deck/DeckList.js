@@ -1,7 +1,14 @@
 import React from "react";
+import Deck from "./Deck";
 
-function DeckList() {
-    return <h1>This is where the DeckList will be</h1>
+function DeckList({decks}) {
+    const decksListed = decks.map((deck) => <Deck key={deck.id} deck={deck} />);
+
+    return (
+        <div>
+            {decksListed}
+        </div>
+    );
 }
 
 export default DeckList;

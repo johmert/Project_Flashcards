@@ -1,11 +1,29 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import {listDecks} from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
+import Deck from "./deck/Deck";
 
 function Layout() {
+  const [decks, setDecks] = useState([]);
   const { path } = useRouteMatch();
+  const abortController = new AbortController();
+  const signal = abortController.signal;
+
+  useEffect(() => {
+    async function getDecks() {
+      const response = await listDecks(signal);
+      setDecks(response);
+    }
+    getDecks();
+    return () => {
+      abortController.abort();
+    }
+  }, []);
+
+  
 
   return (
     <>
@@ -14,7 +32,10 @@ function Layout() {
         {/* TODO: Implement the screen starting here */}
         <Switch>
           <Route path={path}>
-            <DeckList />
+            <DeckList decks={decks}/>
+          </Route>
+          <Route path="/decks/:deckId">
+              <Deck />
           </Route>
           <Route>
             <NotFound />
