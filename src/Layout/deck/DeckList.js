@@ -1,8 +1,8 @@
 import React from "react";
-import Deck from "./Deck";
+import DeckPreview from "./DeckPreview";
 
 function DeckList({decks}) {
-    const decksListed = decks.map((deck) => <Deck key={deck.id} deck={deck} />);
+    const decksListed = decks.map((deck) => <DeckPreview key={deck.id} deck={deck} />);
 
     return (
         <div>
