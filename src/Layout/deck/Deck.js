@@ -6,7 +6,7 @@ function Deck({deck}) {
     return (
         <div id={`deck-${deck.id}`}>
             <Breadcrumb />
-            <Study />
+            <Study id={deck.id}/>
         </div>
     );
 }
