@@ -24,7 +24,12 @@ function Layout() {
     }
   }, []);
 
-  
+  const handleDelete = () => {
+    if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
+        // handle delete
+        console.log(`Deck deleted`);
+    }
+};
 
   return (
     <>
@@ -34,7 +39,7 @@ function Layout() {
         <Switch>
           <Route path={path}>
             <CreateDeck />
-            <DeckList decks={decks}/>
+            <DeckList decks={decks} handleDelete={handleDelete}/>
           </Route>
           <Route path="/decks/:deckId">
               <Deck />

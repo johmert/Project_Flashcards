@@ -3,7 +3,7 @@ import Delete from "../buttons/Delete";
 import Study from "../buttons/Study";
 import View from "../buttons/View";
 
-function DeckPreview({deck}) {
+function DeckPreview({deck, handleDelete}) {
     return (
         <div>
             <h3>{deck.name}</h3>
@@ -11,7 +11,7 @@ function DeckPreview({deck}) {
             <div>
                 <View id={deck.id}/>
                 <Study id={deck.id}/>
-                <Delete id={deck.id}/>
+                <Delete handleDelete={handleDelete}/>
             </div>
         </div>
     );
