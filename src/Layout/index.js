@@ -31,7 +31,11 @@ function Layout() {
         const response = await listDecks(signal);
         setDecks(response);
     }
-}
+  }
+
+  function submit(){
+    console.log('form submitted!');
+  }
 
   return (
     <>
@@ -44,7 +48,7 @@ function Layout() {
             <DeckList decks={decks} handleDelete={handleDelete}/>
           </Route>
           <Route path="/decks/new">
-            <NewDeck />
+            <NewDeck submit={submit}/>
           </Route>
           <Route path="/decks/:deckId">
               <Deck />
