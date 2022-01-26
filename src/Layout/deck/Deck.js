@@ -37,7 +37,7 @@ function Deck() {
                 <Edit mode="deck" deckId={deckId}/>
                 <Study id={deckId}/>
                 <AddCards id={deckId}/>
-                <Delete />
+                <Delete id={deckId}/>
             </div>
         </div>
     );

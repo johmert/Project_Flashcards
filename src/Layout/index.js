@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
 import {deleteDeck, listDecks} from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
@@ -13,6 +13,7 @@ function Layout() {
   const { path } = useRouteMatch();
   const abortController = new AbortController();
   const signal = abortController.signal;
+  const history = useHistory();
 
   useEffect(() => {
     async function getDecks() {
@@ -25,10 +26,12 @@ function Layout() {
     }
   }, []);
 
-  function handleDelete(id){
+  function handleDeckDelete(id){
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
-        deleteDeck(id, signal).then(listDecks(signal)).then(response => setDecks(response));
+        deleteDeck(id, signal)
     }
+    window.location.reload(false);
+    history.push("/");
   }
 
   function submit(){
@@ -43,7 +46,7 @@ function Layout() {
         <Switch>
           <Route exact path={path}>
             <CreateDeck />
-            <DeckList decks={decks} handleDelete={handleDelete}/>
+            <DeckList decks={decks} handleDelete={handleDeckDelete}/>
           </Route>
           <Route path="/decks/new">
             <NewDeck submit={submit}/>
