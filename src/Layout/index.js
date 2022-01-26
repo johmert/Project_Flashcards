@@ -34,8 +34,8 @@ function Layout() {
     history.push("/");
   }
 
-  function submit(){
-    console.log('form submitted!');
+  function addDeck(){
+    console.log("Deck Added!");
   }
 
   return (
@@ -49,7 +49,7 @@ function Layout() {
             <DeckList decks={decks} handleDelete={handleDeckDelete}/>
           </Route>
           <Route path="/decks/new">
-            <NewDeck submit={submit}/>
+            <NewDeck addDeck={addDeck}/>
           </Route>
           <Route path="/decks/:deckId">
               <Deck />
