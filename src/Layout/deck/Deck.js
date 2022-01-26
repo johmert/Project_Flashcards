@@ -2,6 +2,10 @@ import React, {useEffect, useState} from "react";
 import {Route, Switch, useParams} from "react-router-dom";
 import Breadcrumb from "../Breadcrumb";
 import {readDeck} from "../../utils/api/index";
+import Edit from "../buttons/Edit";
+import Study from "../buttons/Study";
+import AddCards from "../buttons/AddCards";
+import Delete from "../buttons/Delete";
 
 function Deck() {
     const [deck, setDeck] = useState({}); 
@@ -29,6 +33,12 @@ function Deck() {
             </Switch>
             <h1>{deck.name}</h1>
             <h6>{deck.description}</h6>
+            <div>
+                <Edit mode="deck" deckId={deckId}/>
+                <Study id={deckId}/>
+                <AddCards id={deckId}/>
+                <Delete />
+            </div>
         </div>
     );
 }
