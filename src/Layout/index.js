@@ -25,11 +25,9 @@ function Layout() {
     }
   }, []);
 
-  async function handleDelete(id){
+  function handleDelete(id){
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
-        await deleteDeck(id, signal);
-        const response = await listDecks(signal);
-        setDecks(response);
+        deleteDeck(id, signal).then(listDecks(signal)).then(response => setDecks(response));
     }
   }
 

@@ -11,7 +11,7 @@ function DeckPreview({deck, handleDelete}) {
             <div>
                 <View id={deck.id}/>
                 <Study id={deck.id}/>
-                <Delete handleDelete={handleDelete}/>
+                <Delete id={deck.id} handleDelete={handleDelete}/>
             </div>
         </div>
     );
