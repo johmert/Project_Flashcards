@@ -7,7 +7,7 @@ import Study from "../buttons/Study";
 import AddCards from "../buttons/AddCards";
 import Delete from "../buttons/Delete";
 
-function Deck() {
+function Deck({handleDelete}) {
     const [deck, setDeck] = useState({}); 
     const {deckId} = useParams();
     const abortController = new AbortController();
@@ -37,7 +37,7 @@ function Deck() {
                 <Edit mode="deck" deckId={deckId}/>
                 <Study id={deckId}/>
                 <AddCards id={deckId}/>
-                <Delete id={deckId}/>
+                <Delete id={deckId} handleDelete={handleDelete}/>
             </div>
         </div>
     );
