@@ -16,8 +16,15 @@ function Layout() {
   const history = useHistory();
 
   async function getDecks() {
-    const response = await listDecks(signal);
-    setDecks(response);
+    try {
+      const response = await listDecks(signal);
+      setDecks(response);
+    } catch(error) {
+      if(error.name !== "AbortError"){
+        throw error;
+      }
+    }
+    
   }
 
   useEffect(() => {
@@ -61,7 +68,7 @@ function Layout() {
             <NewDeck addDeck={addDeck}/>
           </Route>
           <Route path="/decks/:deckId">
-              <Deck handleDelete={handleDeckDelete} newCard={newCard}/>
+              <Deck handleDeckDelete={handleDeckDelete} newCard={newCard}/>
           </Route>
           <Route>
             <NotFound />

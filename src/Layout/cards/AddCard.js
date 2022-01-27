@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 
 
-function AddCard({deckId, newCard}){
+function AddCard({deck, deckId, newCard}){
     const [formData, setFormData] = useState({});
     const history = useHistory();
 
@@ -12,7 +12,8 @@ function AddCard({deckId, newCard}){
 
     function handleSubmit(event){
         event.preventDefault();
-        newCard(deckId)
+        const card = {"id": deck.cards.length, "front": formData.front, "back": formData.back, "deckId": deckId};
+        newCard(deckId, card);
     }
 
     return (

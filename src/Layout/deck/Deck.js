@@ -8,24 +8,37 @@ import AddCards from "../buttons/AddCards";
 import Delete from "../buttons/Delete";
 import DeckStudy from "./DeckStudy";
 import AddCard from "../cards/AddCard";
+import CardPreview from "../cards/CardPreview";
 
-function Deck({handleDelete, newCard}) {
-    const [deck, setDeck] = useState({}); 
+function Deck({handleCardDelete, handleDeckDelete, newCard}) {
+    const [deck, setDeck] = useState({});
     const {deckId} = useParams();
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    useEffect(() => {
-        async function getDeck() {
-          const response = await readDeck(deckId, signal);
-          setDeck(response);
+    async function getDeck() {
+        try{
+            const response = await readDeck(deckId, signal);
+            setDeck(response);
+        } catch(error){
+            if(error.name !== "AbortError"){
+                throw error;
+            }
         }
+        
+    }
+    
+    useEffect(() => {   
         getDeck();
         return () => {
           abortController.abort();
         }
-      }, {});
+      }, []);
     
+    const cards = deck.cards;
+    console.log(cards);
+    //const cardsListed = cards.map((card) => <CardPreview key={card.id}/>)
+
     return (
         <div id={`deck-${deckId}`}>
             <Breadcrumb deck={deck}/>
@@ -37,7 +50,9 @@ function Deck({handleDelete, newCard}) {
                         <Edit mode="deck" deckId={deckId}/>
                         <Study id={deckId}/>
                         <AddCards id={deckId}/>
-                        <Delete id={deckId} handleDelete={handleDelete}/>
+                        <Delete id={deckId} handleDelete={handleDeckDelete}/>
+                    </div>
+                    <div>
                     </div>
                 </Route>
                 <Route path={`/decks/${deckId}/study`}>
@@ -47,7 +62,7 @@ function Deck({handleDelete, newCard}) {
                     <h1>This is the deck edit page!</h1>
                 </Route>
                 <Route path={`/decks/${deckId}/cards/new`}>
-                    <AddCard deckId={deckId} newCard={newCard}/>
+                    <AddCard deck={deck} deckId={deckId} newCard={newCard}/>
                 </Route>
             </Switch>
             
