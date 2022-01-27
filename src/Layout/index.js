@@ -75,7 +75,7 @@ function Layout() {
             <NewDeck addDeck={addDeck}/>
           </Route>
           <Route path="/decks/:deckId">
-              <Deck handleDeckDelete={handleDeckDelete} newCard={newCard}/>
+              <Deck handleDeckDelete={handleDeckDelete} handleCardDelete={handleCardDelete} newCard={newCard}/>
           </Route>
           <Route>
             <NotFound />
