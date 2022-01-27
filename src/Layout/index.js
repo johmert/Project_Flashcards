@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
-import {createCard, createDeck, deleteDeck, listDecks} from "../utils/api/index"
+import {createCard, createDeck, deleteCard, deleteDeck, listDecks} from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
@@ -40,6 +40,13 @@ function Layout() {
     }
     history.push("/");
     getDecks();
+  }
+
+  function handleCardDelete(id){
+    if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
+      deleteCard(id, signal);
+  }
+  history.push("/");
   }
 
   function addDeck(name, description){
