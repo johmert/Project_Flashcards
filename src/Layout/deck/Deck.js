@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {Route, Switch, useParams} from "react-router-dom";
+import {Route, Switch, useHistory, useParams} from "react-router-dom";
 import Breadcrumb from "../Breadcrumb";
-import {readDeck} from "../../utils/api/index";
+import {createCard, readDeck} from "../../utils/api/index";
 import Edit from "../buttons/Edit";
 import Study from "../buttons/Study";
 import AddCards from "../buttons/AddCards";
@@ -10,10 +10,11 @@ import DeckStudy from "./DeckStudy";
 import AddCard from "../cards/AddCard";
 import CardPreview from "../cards/CardPreview";
 
-function Deck({handleCardDelete, handleDeckDelete, newCard}) {
+function Deck({handleCardDelete, handleDeckDelete}) {
     const [deck, setDeck] = useState({});
     const {deckId} = useParams();
     const abortController = new AbortController();
+    const history = useHistory();
     const signal = abortController.signal;
 
     async function getDeck() {
@@ -25,7 +26,12 @@ function Deck({handleCardDelete, handleDeckDelete, newCard}) {
                 throw error;
             }
         }
-        
+    }
+
+    async function newCard(deckId, card){
+        await createCard(deckId, card, signal);
+        history.push(`/decks/${deckId}`);
+        getDeck();
     }
     
     useEffect(() => {   
@@ -51,7 +57,7 @@ function Deck({handleCardDelete, handleDeckDelete, newCard}) {
                     <div>
                         <Edit mode="deck" deckId={deckId}/>
                         <Study id={deckId}/>
-                        <AddCards id={deckId}/>
+                        <AddCards id={deckId} newCard={newCard}/>
                         <Delete id={deckId} handleDelete={handleDeckDelete}/>
                     </div>
                     <div>
