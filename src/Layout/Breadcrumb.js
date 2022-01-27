@@ -1,8 +1,10 @@
 import React from "react";
-import {Route, Switch, useHistory} from "react-router-dom";
+import {Route, Switch, useHistory, useParams} from "react-router-dom";
 
 function Breadcrumb({deck}) {
     const history = useHistory();
+    const cardId = useParams().cardId;
+
     return (
         <div>
            <button onClick={() => history.push("/")}>Home</button>
@@ -21,6 +23,10 @@ function Breadcrumb({deck}) {
                <Route path={`/decks/${deck.id}/cards/new`}>
                    <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
                    <button disabled>Add Cards</button>
+               </Route>
+               <Route path={`/decks/${deck.id}/cards/${cardId}/edit`}>
+                   <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
+                   <button disabled>Edit Card {cardId}</button>
                </Route>
            </Switch>
         </div>

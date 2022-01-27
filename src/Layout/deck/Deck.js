@@ -9,6 +9,7 @@ import Delete from "../buttons/Delete";
 import DeckStudy from "./DeckStudy";
 import AddCard from "../cards/AddCard";
 import CardPreview from "../cards/CardPreview";
+import Card from "../cards/Card";
 
 function Deck({handleCardDelete, handleDeckDelete}) {
     const [deck, setDeck] = useState({});
@@ -49,9 +50,9 @@ function Deck({handleCardDelete, handleDeckDelete}) {
 
     return (
         <div id={`deck-${deckId}`}>
-            <Breadcrumb deck={deck}/>
             <Switch>
                 <Route exact path={`/decks/${deckId}`}>
+                    <Breadcrumb deck={deck}/>
                     <h1>{deck.name}</h1>
                     <h6>{deck.description}</h6>
                     <div>
@@ -65,13 +66,19 @@ function Deck({handleCardDelete, handleDeckDelete}) {
                     </div>
                 </Route>
                 <Route path={`/decks/${deckId}/study`}>
+                    <Breadcrumb deck={deck}/>
                     <DeckStudy />
                 </Route>
                 <Route path={`/decks/${deckId}/edit`}>
+                    <Breadcrumb deck={deck}/>
                     <h1>This is the deck edit page!</h1>
                 </Route>
                 <Route path={`/decks/${deckId}/cards/new`}>
+                    <Breadcrumb deck={deck}/>
                     <AddCard deck={deck} deckId={deckId} newCard={newCard}/>
+                </Route>
+                <Route path="/decks/:deckId/cards/:cardId/edit">
+                    <Card deck={deck}/>
                 </Route>
             </Switch>
             
