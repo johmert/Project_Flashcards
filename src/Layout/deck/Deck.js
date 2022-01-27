@@ -9,7 +9,7 @@ import Delete from "../buttons/Delete";
 import DeckStudy from "./DeckStudy";
 import AddCard from "../cards/AddCard";
 
-function Deck({handleDelete}) {
+function Deck({handleDelete, newCard}) {
     const [deck, setDeck] = useState({}); 
     const {deckId} = useParams();
     const abortController = new AbortController();
@@ -47,7 +47,7 @@ function Deck({handleDelete}) {
                     <h1>This is the deck edit page!</h1>
                 </Route>
                 <Route path={`/decks/${deckId}/cards/new`}>
-                    <AddCard deckId={deckId}/>
+                    <AddCard deckId={deckId} newCard={newCard}/>
                 </Route>
             </Switch>
             

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
-import {createDeck, deleteDeck, listDecks} from "../utils/api/index"
+import {createCard, createDeck, deleteDeck, listDecks} from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
@@ -43,6 +43,11 @@ function Layout() {
     getDecks()
   }
 
+  function newCard(deckId, card){
+    createCard(deckId, card, signal);
+    history.push(`/decks/${deckId}`);
+  }
+
   return (
     <>
       <Header />
@@ -56,7 +61,7 @@ function Layout() {
             <NewDeck addDeck={addDeck}/>
           </Route>
           <Route path="/decks/:deckId">
-              <Deck handleDelete={handleDeckDelete}/>
+              <Deck handleDelete={handleDeckDelete} newCard={newCard}/>
           </Route>
           <Route>
             <NotFound />
