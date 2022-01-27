@@ -6,12 +6,16 @@ function Breadcrumb({deck}) {
     return (
         <div>
            <button onClick={() => history.push("/")}>Home</button>
-           <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
            <Switch>
+               <Route exact path={`/decks/${deck.id}`}>
+                    <button disabled>{deck.name}</button>
+               </Route>
                <Route path={`/decks/${deck.id}/study`}>
+                   <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
                    <button disabled>Study</button>
                </Route>
                <Route path={`/decks/${deck.id}/edit`}>
+                   <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
                    <button disabled>Edit</button>
                </Route>
            </Switch>

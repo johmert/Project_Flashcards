@@ -1,12 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 
 function NewDeck({addDeck}) {
+    const [formData, setFormData] = useState({});
     const history = useHistory();
+
+    function handleChange({target}){
+        setFormData({...formData, [target.name]: target.value});
+    }
 
     function handleSubmit(event) {
         event.preventDefault();
-        addDeck();
+        addDeck(formData.name, formData.description);
     }
 
     return (
@@ -14,11 +19,11 @@ function NewDeck({addDeck}) {
             <form onSubmit={handleSubmit}>
                 <label>
                     Name:
-                    <input type="text" name="name"/>
+                    <input type="text" name="name" onChange={handleChange}/>
                 </label>
                 <label>
                     Description:
-                    <textarea name="description"/>
+                    <textarea name="description" onChange={handleChange}/>
                 </label>
                 <button onClick={() => history.push("/")}>Cancel</button>
                 <input type="submit" value="Submit"/>

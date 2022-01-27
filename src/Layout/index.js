@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
-import {deleteDeck, listDecks} from "../utils/api/index"
+import {createDeck, deleteDeck, listDecks} from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
@@ -15,11 +15,12 @@ function Layout() {
   const signal = abortController.signal;
   const history = useHistory();
 
+  async function getDecks() {
+    const response = await listDecks(signal);
+    setDecks(response);
+  }
+
   useEffect(() => {
-    async function getDecks() {
-      const response = await listDecks(signal);
-      setDecks(response);
-    }
     getDecks();
     return () => {
       abortController.abort();
@@ -28,21 +29,24 @@ function Layout() {
 
   function handleDeckDelete(id){
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
-        deleteDeck(id, signal)
+        deleteDeck(id, signal);
     }
-    window.location.reload(false);
     history.push("/");
+    getDecks();
   }
 
-  function addDeck(){
-    console.log("Deck Added!");
+  function addDeck(name, description){
+    const id = decks.length + 1;
+    const deck = { "id": id, "name": name, "description": description };
+    createDeck(deck, signal);
+    history.push("/"); 
+    getDecks()
   }
 
   return (
     <>
       <Header />
       <div className="container">
-        {/* TODO: Implement the screen starting here */}
         <Switch>
           <Route exact path={path}>
             <CreateDeck />
