@@ -47,7 +47,7 @@ function Deck({handleDelete}) {
                     <h1>This is the deck edit page!</h1>
                 </Route>
                 <Route path={`/decks/${deckId}/cards/new`}>
-                    <AddCard deck={deck}/>
+                    <AddCard deckId={deckId}/>
                 </Route>
             </Switch>
             

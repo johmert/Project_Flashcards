@@ -1,12 +1,36 @@
-import React from "react";
-import Breadcrumb from "../Breadcrumb";
+import React, {useState} from "react";
+import {useHistory} from "react-router-dom";
 
-function AddCard({deck}){
+
+function AddCard({deckId, newCard}){
+    const [formData, setFormData] = useState({});
+    const history = useHistory();
+
+    function handleChange({target}){
+        setFormData({...formData, [target.name]: target.value});
+    }
+
+    function handleSubmit(event){
+        event.preventDefault();
+        newCard(deckId)
+    }
+
     return (
         <div>
-            
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Front:
+                    <textarea name="front" onChange={handleChange}/>
+                </label>
+                <label>
+                    Back:
+                    <textarea name="back" onChange={handleChange}/>
+                </label>
+                <button onClick={() => history.push(`/decks/${deckId}`)}>Done</button>
+                <input type="submit" value="Save"/>
+            </form>
         </div>
-        );
+    );
 }
 
 export default AddCard;
