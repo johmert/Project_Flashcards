@@ -33,7 +33,7 @@ function Card({deck, deckId}){
         <div>
             <Breadcrumb deck={deck} card={card}/>
             <Switch>
-                <Route>
+                <Route path={`/decks/${deckId}/cards/:cardId/edit`}>
                     <EditCard card={card} deckId={deckId}/>
                 </Route>
             </Switch>

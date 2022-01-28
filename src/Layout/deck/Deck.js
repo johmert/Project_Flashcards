@@ -40,7 +40,7 @@ function Deck({handleCardDelete, handleDeckDelete}) {
         return () => {
           abortController.abort();
         }
-      }, []);
+      }, [deck]);
     
     const cards = deck.cards;
     let cardsListed;

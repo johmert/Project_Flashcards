@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { updateCard } from "../../utils/api";
 
@@ -12,6 +12,10 @@ function EditCard({deckId, card}){
     const abortController = new AbortController();
     const signal = abortController.signal;
 
+    useEffect(() => {
+        setFormData(initialFormState);
+    }, [card])
+
     function handleChange({target}){
         setFormData({...formData, [target.name]: target.value});
     }
@@ -21,7 +25,6 @@ function EditCard({deckId, card}){
         const updatedCard = {"id": card.id, "front": formData.front, "back": formData.back, "deckId": parseInt(deckId)};
         updateCard(updatedCard, signal);
         history.push(`/decks/${deckId}`);
-        window.location.reload(false);
     }
 
     return (
