@@ -21,6 +21,7 @@ function EditCard({deckId, card}){
         const updatedCard = {"id": card.id, "front": formData.front, "back": formData.back, "deckId": parseInt(deckId)};
         updateCard(updatedCard, signal);
         history.push(`/decks/${deckId}`);
+        window.location.reload(false);
     }
 
     return (
