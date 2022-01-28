@@ -1,12 +1,38 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
-import {updateCard} from "../../utils/api";
+import {readCard, updateCard} from "../../utils/api";
 
-function EditCard({card}){
-    const [formData, setFormData] = useState({});
+function EditCard(){
+    const [card, setCard] = useState({});
     const history = useHistory();
     const cardId = useParams().cardId;
     const deckId = useParams().deckId;
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    async function getCard(){
+        try {
+            const response = await readCard(cardId, signal);
+            setCard(response);
+        } catch(error){
+            if(error.name !== "AbortError") {
+                throw error;
+            }
+        }
+    }
+
+    useEffect(() => {
+        getCard();
+        return () => {
+            abortController.abort();
+        }
+    }, []);
+
+    const initialFormState = {
+        front: card.front,
+        back: card.back
+    }
+    const [formData, setFormData] = useState(initialFormState);
 
     function handleChange({target}){
         setFormData({...formData, [target.name]: target.value});
@@ -23,11 +49,11 @@ function EditCard({card}){
             <form onSubmit={handleSubmit}>
                 <label>
                     Front:
-                    <textarea name="front" onChange={handleChange} value={card.front}/>
+                    <textarea name="front" onChange={handleChange} />
                 </label>
                 <label>
                     Back:
-                    <textarea name="back" onChange={handleChange} value={card.back}/>
+                    <textarea name="back" onChange={handleChange} />
                 </label>
                 <button onClick={() => history.push(`/decks/${deckId}`)}>Cancel</button>
                 <input type="submit" value="Submit"/>
