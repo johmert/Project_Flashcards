@@ -45,7 +45,7 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
     const cards = deck.cards;
     let cardsListed;
     if(cards){
-        cardsListed = cards.map((card) => <CardPreview key={card.id} id={card.id} card={card} handleDelete={handleCardDelete} deckId={deckId} />)
+        cardsListed = cards.map((card) => <CardPreview key={card.id} card={card} handleDelete={handleCardDelete} deckId={deckId} />)
     }
 
     return (
@@ -78,8 +78,7 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
                     <AddCard deck={deck} deckId={deckId} newCard={newCard}/>
                 </Route>
                 <Route path={`/decks/${deckId}/cards/:cardId/edit`}>
-                    <Breadcrumb deck={deck} />
-                    <CardPreview deck={deck} deckId={deckId}/>
+                    <Card deck={deck} deckId={deckId}/>
                 </Route>
             </Switch>
             
