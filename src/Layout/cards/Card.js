@@ -4,7 +4,7 @@ import { readCard } from "../../utils/api";
 import Breadcrumb from "../Breadcrumb";
 import EditCard from "./EditCard";
 
-function Card({deck}){
+function Card({deck, deckId}){
     const [card, setCard] = useState({});
     const cardId = useParams().cardId;
     const abortController = new AbortController();
@@ -34,7 +34,7 @@ function Card({deck}){
             <Breadcrumb deck={deck} card={card}/>
             <Switch>
                 <Route>
-                    <EditCard card={card}/>
+                    <EditCard card={card} deckId={deckId}/>
                 </Route>
             </Switch>
         </div>

@@ -2,11 +2,10 @@ import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import {readCard, updateCard} from "../../utils/api";
 
-function EditCard(){
+function EditCard({deckId}){
     const [card, setCard] = useState({});
     const history = useHistory();
     const cardId = useParams().cardId;
-    const deckId = useParams().deckId;
     const abortController = new AbortController();
     const signal = abortController.signal;
 
@@ -40,8 +39,9 @@ function EditCard(){
 
     function handleSubmit(event){
         event.preventDefault();
-        const updatedCard = {"id": cardId, "front": formData.front, "back": formData.back, "deckId": deckId};
-        updateCard(updatedCard)
+        const updatedCard = {"id": card.id, "front": formData.front, "back": formData.back, "deckId": parseInt(deckId)};
+        updateCard(updatedCard, signal);
+        history.push(`/decks/${deckId}`);
     }
 
     return (
