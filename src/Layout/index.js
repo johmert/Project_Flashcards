@@ -10,11 +10,12 @@ import NewDeck from "./deck/NewDeck";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
+  const [cardId, setCardId] = useState(1);
   const { path } = useRouteMatch();
   const abortController = new AbortController();
   const signal = abortController.signal;
   const history = useHistory();
-  const [cardId, setCardId] = useState(1);
+  
 
   async function getDecks() {
     try {
