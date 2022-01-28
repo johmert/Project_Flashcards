@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { updateCard } from "../../utils/api";
+import NotFound from "../NotFound";
 
 function EditCard({deckId, card}){
     const initialFormState = {
@@ -26,6 +27,10 @@ function EditCard({deckId, card}){
         await updateCard(updatedCard, signal);
         history.push(`/decks/${deckId}`);
         window.location.reload(false);
+    }
+
+    if(formData.front === undefined){
+        return <NotFound/>
     }
 
     return (
