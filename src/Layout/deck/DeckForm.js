@@ -1,9 +1,17 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
+import {updateDeck} from "../../utils/api/index";
 
-function DeckForm({mode, addDeck}) {
-    const [formData, setFormData] = useState({});
+function DeckForm({mode, addDeck, deck}) {
+    let initialFormState = {}
+    const [formData, setFormData] = useState(initialFormState);
     const history = useHistory();
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    useEffect(() => {
+        setFormData(initialFormState);
+    }, [deck])
 
     function handleChange({target}){
         setFormData({...formData, [target.name]: target.value});
@@ -13,9 +21,37 @@ function DeckForm({mode, addDeck}) {
         event.preventDefault();
         addDeck(formData.name, formData.description);
     }
+
+    function handleEditSubmit(event){
+        event.preventDefault();
+        const updatedDeck = deck;
+        updatedDeck.name = formData.name;
+        updatedDeck.description = formData.description;
+        updateDeck(updatedDeck, signal);
+        history.push("/");
+        window.location.reload(false);
+    }
+
     if(mode === "edit"){
-        return <h1>deck edit page!</h1>
-    } else if (mode === "add"){
+        initialFormState = {name: deck.name, description: deck.description}
+        return (
+            <div>
+                <form onSubmit={handleEditSubmit}>
+                    <label>
+                        Name:
+                        <input type="text" name="name" onChange={handleChange} value={formData.name}/>
+                    </label>
+                    <label>
+                        Description:
+                        <textarea name="description" onChange={handleChange} value={formData.description}/>
+                    </label>
+                    <button onClick={() => history.push("/")}>Cancel</button>
+                    <input type="submit" value="Submit"/>                
+                </form>
+            </div>
+        );
+
+    } else if(mode === "add"){
         return (
             <div>
                 <form onSubmit={handleSubmit}>
@@ -28,12 +64,12 @@ function DeckForm({mode, addDeck}) {
                         <textarea name="description" onChange={handleChange}/>
                     </label>
                     <button onClick={() => history.push("/")}>Cancel</button>
-                    <input type="submit" value="Submit"/>
+                    <input type="submit" value="Submit"/>                
                 </form>
             </div>
         );
     }
-    return <p>Something has gone wrong!</p>
+    <p>Something went wrong!</p>
 }
 
 export default DeckForm;
