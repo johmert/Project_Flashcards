@@ -6,7 +6,7 @@ import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
 import Deck from "./deck/Deck";
 import CreateDeck from "./buttons/CreateDeck";
-import NewDeck from "./deck/NewDeck";
+import DeckForm from "./deck/DeckForm";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
@@ -72,7 +72,7 @@ function Layout() {
             <DeckList decks={decks} handleDelete={handleDeckDelete}/>
           </Route>
           <Route path="/decks/new">
-            <NewDeck addDeck={addDeck}/>
+            <DeckForm mode="add" addDeck={addDeck}/>
           </Route>
           <Route path="/decks/:deckId">
               <Deck handleDeckDelete={handleDeckDelete} handleCardDelete={handleCardDelete} cardId={cardId}/>

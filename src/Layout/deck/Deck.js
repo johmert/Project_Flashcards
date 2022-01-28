@@ -10,6 +10,7 @@ import DeckStudy from "./DeckStudy";
 import AddCard from "../cards/AddCard";
 import CardPreview from "../cards/CardPreview";
 import Card from "../cards/Card";
+import DeckForm from "./DeckForm";
 
 function Deck({handleCardDelete, handleDeckDelete, cardId}) {
     const [deck, setDeck] = useState({});
@@ -71,7 +72,7 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
                 </Route>
                 <Route path={`/decks/${deckId}/edit`}>
                     <Breadcrumb deck={deck}/>
-                    <h1>This is the deck edit page!</h1>
+                    <DeckForm mode="edit" />
                 </Route>
                 <Route path={`/decks/${deckId}/cards/new`}>
                     <Breadcrumb deck={deck}/>
