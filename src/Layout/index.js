@@ -14,11 +14,14 @@ function Layout() {
   const abortController = new AbortController();
   const signal = abortController.signal;
   const history = useHistory();
+  const [cardId, setCardId] = useState(1);
 
   async function getDecks() {
     try {
       const response = await listDecks(signal);
       setDecks(response);
+      const newCardId = Number.isInteger(response[response.length-1].cards[0])
+      setCardId(newCardId);
     } catch(error) {
       if(error.name !== "AbortError"){
         throw error;
@@ -39,6 +42,7 @@ function Layout() {
         await deleteDeck(id, signal);
     }
     history.push("/");
+    await getDecks();
   }
 
   async function handleCardDelete(id, deckId){
@@ -70,7 +74,7 @@ function Layout() {
             <NewDeck addDeck={addDeck}/>
           </Route>
           <Route path="/decks/:deckId">
-              <Deck handleDeckDelete={handleDeckDelete} handleCardDelete={handleCardDelete}/>
+              <Deck handleDeckDelete={handleDeckDelete} handleCardDelete={handleCardDelete} cardId={cardId}/>
           </Route>
           <Route>
             <NotFound />

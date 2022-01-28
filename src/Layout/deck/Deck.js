@@ -11,7 +11,7 @@ import AddCard from "../cards/AddCard";
 import CardPreview from "../cards/CardPreview";
 import Card from "../cards/Card";
 
-function Deck({handleCardDelete, handleDeckDelete}) {
+function Deck({handleCardDelete, handleDeckDelete, cardId}) {
     const [deck, setDeck] = useState({});
     const {deckId} = useParams();
     const abortController = new AbortController();
@@ -58,7 +58,7 @@ function Deck({handleCardDelete, handleDeckDelete}) {
                     <div>
                         <Edit mode="deck" deckId={deckId} getDeck={getDeck}/>
                         <Study id={deckId}/>
-                        <AddCards id={deckId} newCard={newCard}/>
+                        <AddCards id={deckId} newCard={newCard} cardId={cardId}/>
                         <Delete id={deckId} handleDelete={handleDeckDelete} mode="deck"/>
                     </div>
                     <div>
