@@ -1,37 +1,16 @@
-import React, {useEffect, useState} from "react";
-import {useHistory, useParams} from "react-router-dom";
-import {readCard, updateCard} from "../../utils/api";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { updateCard } from "../../utils/api";
 
-function EditCard({deckId}){
-    const [card, setCard] = useState({});
-    const history = useHistory();
-    const cardId = useParams().cardId;
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-
-    async function getCard(){
-        try {
-            const response = await readCard(cardId, signal);
-            setCard(response);
-        } catch(error){
-            if(error.name !== "AbortError") {
-                throw error;
-            }
-        }
-    }
-
-    useEffect(() => {
-        getCard();
-        return () => {
-            abortController.abort();
-        }
-    }, []);
-
+function EditCard({deckId, card}){
     const initialFormState = {
         front: card.front,
         back: card.back
     }
     const [formData, setFormData] = useState(initialFormState);
+    const history = useHistory();
+    const abortController = new AbortController();
+    const signal = abortController.signal;
 
     function handleChange({target}){
         setFormData({...formData, [target.name]: target.value});
@@ -49,11 +28,11 @@ function EditCard({deckId}){
             <form onSubmit={handleSubmit}>
                 <label>
                     Front:
-                    <textarea name="front" onChange={handleChange} />
+                    <textarea name="front" onChange={handleChange} value={formData.front} placeholder={card.front}/>
                 </label>
                 <label>
                     Back:
-                    <textarea name="back" onChange={handleChange} />
+                    <textarea name="back" onChange={handleChange} value={formData.back} placeholder={card.back}/>
                 </label>
                 <button onClick={() => history.push(`/decks/${deckId}`)}>Cancel</button>
                 <input type="submit" value="Submit"/>
