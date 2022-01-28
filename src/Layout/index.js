@@ -21,7 +21,7 @@ function Layout() {
     try {
       const response = await listDecks(signal);
       setDecks(response);
-      const newCardId = Number.isInteger(response[response.length-1].cards[0])
+      const newCardId = Number.isInteger(response[response.length-1].cards[0]) ? response[response.length-1].cards[0] : 1;
       setCardId(newCardId);
     } catch(error) {
       if(error.name !== "AbortError"){

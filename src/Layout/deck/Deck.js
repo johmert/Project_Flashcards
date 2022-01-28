@@ -11,6 +11,7 @@ import AddCard from "../cards/AddCard";
 import CardPreview from "../cards/CardPreview";
 import Card from "../cards/Card";
 import DeckForm from "./DeckForm";
+import NotFound from "../NotFound";
 
 function Deck({handleCardDelete, handleDeckDelete, cardId}) {
     const [deck, setDeck] = useState({});
@@ -80,6 +81,9 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
                 </Route>
                 <Route path={`/decks/${deckId}/cards/:cardId/edit`}>
                     <Card deck={deck} deckId={deckId}/>
+                </Route>
+                <Route>
+                    <NotFound />
                 </Route>
             </Switch>
             
