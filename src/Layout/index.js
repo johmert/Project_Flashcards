@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import {createDeck, deleteCard, deleteDeck, listDecks} from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
@@ -11,7 +11,6 @@ import DeckForm from "./deck/DeckForm";
 function Layout() {
   const [decks, setDecks] = useState([]);
   const [cardId, setCardId] = useState(1);
-  const { path } = useRouteMatch();
   const abortController = new AbortController();
   const signal = abortController.signal;
   const history = useHistory();
@@ -67,7 +66,7 @@ function Layout() {
       <Header />
       <div className="container">
         <Switch>
-          <Route exact path={path}>
+          <Route exact path="/">
             <CreateDeck />
             <DeckList decks={decks} handleDelete={handleDeckDelete}/>
           </Route>
