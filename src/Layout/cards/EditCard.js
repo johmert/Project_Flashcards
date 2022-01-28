@@ -20,11 +20,12 @@ function EditCard({deckId, card}){
         setFormData({...formData, [target.name]: target.value});
     }
 
-    function handleSubmit(event){
+    async function handleSubmit(event){
         event.preventDefault();
         const updatedCard = {"id": card.id, "front": formData.front, "back": formData.back, "deckId": parseInt(deckId)};
-        updateCard(updatedCard, signal);
+        await updateCard(updatedCard, signal);
         history.push(`/decks/${deckId}`);
+        window.location.reload(false);
     }
 
     return (

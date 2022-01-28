@@ -34,19 +34,19 @@ function Layout() {
     }
   }, []);
 
-  function handleDeckDelete(id){
+  async function handleDeckDelete(id){
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
-        deleteDeck(id, signal);
+        await deleteDeck(id, signal);
     }
     history.push("/");
-    getDecks();
   }
 
-  function handleCardDelete(id){
+  async function handleCardDelete(id, deckId){
     if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
-      deleteCard(id, signal);
+      await deleteCard(id, signal);
   }
-  history.push("/");
+    history.push(`/decks/${deckId}`);
+    window.location.reload(false);
   }
 
   function addDeck(name, description){

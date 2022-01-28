@@ -2,14 +2,14 @@ import React from "react";
 import Delete from "../buttons/Delete";
 import Edit from "../buttons/Edit";
 
-function CardPreview({card, handleDelete}){    
+function CardPreview({card, handleDelete, deckId}){    
     return (
         <div>
             <p>{card.front}</p>
             <p>{card.back}</p>
             <div>
                 <Edit mode="card" deckId={card.deckId} cardId={card.id}/>
-                <Delete id={card.id} handleDelete={handleDelete}/>
+                <Delete mode="card" id={card.id} handleDelete={handleDelete} deckId={deckId}/>
             </div>
         </div>
     );

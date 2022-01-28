@@ -40,12 +40,12 @@ function Deck({handleCardDelete, handleDeckDelete}) {
         return () => {
           abortController.abort();
         }
-      }, [deck]);
+      }, []);
     
     const cards = deck.cards;
     let cardsListed;
     if(cards){
-        cardsListed = cards.map((card) => <CardPreview key={card.id} card={card} handleDelete={handleCardDelete}/>)
+        cardsListed = cards.map((card) => <CardPreview key={card.id} card={card} handleDelete={handleCardDelete} deckId={deckId} />)
     }
 
     return (
@@ -56,10 +56,10 @@ function Deck({handleCardDelete, handleDeckDelete}) {
                     <h1>{deck.name}</h1>
                     <h6>{deck.description}</h6>
                     <div>
-                        <Edit mode="deck" deckId={deckId}/>
+                        <Edit mode="deck" deckId={deckId} getDeck={getDeck}/>
                         <Study id={deckId}/>
                         <AddCards id={deckId} newCard={newCard}/>
-                        <Delete id={deckId} handleDelete={handleDeckDelete}/>
+                        <Delete id={deckId} handleDelete={handleDeckDelete} mode="deck"/>
                     </div>
                     <div>
                         {cardsListed}
