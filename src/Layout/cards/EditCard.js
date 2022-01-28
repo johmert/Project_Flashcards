@@ -33,11 +33,11 @@ function EditCard({deckId, card}){
             <form onSubmit={handleSubmit}>
                 <label>
                     Front:
-                    <textarea name="front" onChange={handleChange} value={formData.front} placeholder={card.front}/>
+                    <textarea name="front" onChange={handleChange} value={formData.front}/>
                 </label>
                 <label>
                     Back:
-                    <textarea name="back" onChange={handleChange} value={formData.back} placeholder={card.back}/>
+                    <textarea name="back" onChange={handleChange} value={formData.back}/>
                 </label>
                 <button onClick={() => history.push(`/decks/${deckId}`)}>Cancel</button>
                 <input type="submit" value="Submit"/>

@@ -67,7 +67,7 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
                 </Route>
                 <Route path={`/decks/${deckId}/study`}>
                     <Breadcrumb deck={deck}/>
-                    <DeckStudy />
+                    <DeckStudy deck={deck}/>
                 </Route>
                 <Route path={`/decks/${deckId}/edit`}>
                     <Breadcrumb deck={deck}/>
