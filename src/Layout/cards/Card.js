@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { readCard } from "../../utils/api";
-import Breadcrumb from "../Breadcrumb";
+
 import EditCard from "./EditCard";
 
-function Card({deck, deckId}){
+function Card({deckId}){
     const [card, setCard] = useState({});
     const cardId = useParams().cardId;
     const abortController = new AbortController();
@@ -29,16 +29,7 @@ function Card({deck, deckId}){
     }, []);
     
 
-    return (
-        <div>
-            <Breadcrumb deck={deck} card={card}/>
-            <Switch>
-                <Route path={`/decks/${deckId}/cards/:cardId/edit`}>
-                    <EditCard card={card} deckId={deckId}/>
-                </Route>
-            </Switch>
-        </div>
-    );
+    return <EditCard card={card} deckId={deckId}/>
 }
 
 export default Card;

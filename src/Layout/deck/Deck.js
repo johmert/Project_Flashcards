@@ -2,10 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Route, Switch, useHistory, useParams} from "react-router-dom";
 import Breadcrumb from "../Breadcrumb";
 import {createCard, readDeck} from "../../utils/api/index";
-import Edit from "../buttons/Edit";
-import Study from "../buttons/Study";
-import AddCards from "../buttons/AddCards";
-import Delete from "../buttons/Delete";
+import Buttons from "../buttons/Buttons";
 import DeckStudy from "./DeckStudy";
 import AddCard from "../cards/AddCard";
 import CardPreview from "../cards/CardPreview";
@@ -52,31 +49,21 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
 
     return (
         <div id={`deck-${deckId}`}>
+            <Breadcrumb deck={deck}/>
             <Switch>
                 <Route exact path={`/decks/${deckId}`}>
-                    <Breadcrumb deck={deck}/>
                     <h1>{deck.name}</h1>
                     <h6>{deck.description}</h6>
-                    <div>
-                        <Edit mode="deck" deckId={deckId} getDeck={getDeck}/>
-                        <Study id={deckId}/>
-                        <AddCards id={deckId} newCard={newCard} cardId={cardId}/>
-                        <Delete id={deckId} handleDelete={handleDeckDelete} mode="deck"/>
-                    </div>
-                    <div>
-                        {cardsListed}
-                    </div>
+                    <Buttons cardId={cardId} deckId={deckId} names={["edit-deck, study, add-cards, delete-deck"]} handleDelete={handleDeckDelete}/>
+                    {cardsListed}
                 </Route>
                 <Route path={`/decks/:deckId/study`}>
-                    <Breadcrumb deck={deck}/>
                     <DeckStudy />
                 </Route>
                 <Route path={`/decks/${deckId}/edit`}>
-                    <Breadcrumb deck={deck}/>
                     <DeckForm mode="edit" deck={deck}/>
                 </Route>
                 <Route path={`/decks/${deckId}/cards/new`}>
-                    <Breadcrumb deck={deck}/>
                     <AddCard deck={deck} deckId={deckId} newCard={newCard}/>
                 </Route>
                 <Route path={`/decks/${deckId}/cards/:cardId/edit`}>

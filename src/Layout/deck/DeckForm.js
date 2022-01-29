@@ -36,6 +36,7 @@ function DeckForm({mode, addDeck, deck}) {
         initialFormState = {name: deck.name, description: deck.description}
         return (
             <div>
+                <h1>Edit Deck</h1>
                 <form onSubmit={handleEditSubmit}>
                     <label>
                         Name:
@@ -54,6 +55,7 @@ function DeckForm({mode, addDeck, deck}) {
     } else if(mode === "add"){
         return (
             <div>
+                <h1>Create Deck</h1>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Name:

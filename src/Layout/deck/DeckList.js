@@ -1,13 +1,13 @@
 import React from "react";
 import DeckPreview from "./DeckPreview";
-import CreateDeck from "../buttons/CreateDeck";
+import Buttons from "../buttons/Buttons"
 
 function DeckList({decks, handleDelete}) {
-    const decksListed = decks.map((deck) => <DeckPreview key={deck.id} deck={deck} handleDelete={handleDelete}/>);
+    const decksListed = decks.map((deck) =><DeckPreview key={deck.id} deck={deck} handleDelete={handleDelete}/>);
 
     return (
         <div>
-            <CreateDeck />
+            <Buttons names={["create-deck"]} />
             {decksListed}
         </div>
     );

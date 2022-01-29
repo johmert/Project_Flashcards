@@ -12,7 +12,6 @@ function AddCard({deckId, newCard, cardId}){
     function handleSubmit(event){
         event.preventDefault();
         const id = cardId + 1;
-        console.log(id);
         const card = {id: id, front: formData.front, back: formData.back, deckId: deckId};
         newCard(deckId, card);
     }

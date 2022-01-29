@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import {readCard, readDeck} from "../../utils/api";
+import Buttons from "../buttons/Buttons";
 
 function DeckStudy() {
     const [deck, setDeck] = useState({});
@@ -25,8 +26,7 @@ function DeckStudy() {
     async function getDeck(){
         const response = await readDeck(deckId, signal);
         setDeck(response);
-        const newCardId = response[response.length] ? response[response.length-1].cards[0] : 1;
-        setStudy({id: newCardId, number: 1, total: response.cards.length})
+        setStudy({id: response.cards[0].id, number: 1, total: response.cards.length})
     }
 
     useEffect(() => {
@@ -59,6 +59,7 @@ function DeckStudy() {
                 <h1>{deck.name}: Study</h1>
                 <h2>Not Enough Cards.</h2>
                 <p>You need at least 3 cards to study. There are {study.total} in this deck.</p>
+                <Buttons names={["add-card"]} deckId={deck.id}/>
             </div>
         );
     }

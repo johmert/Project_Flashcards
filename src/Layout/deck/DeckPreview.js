@@ -1,17 +1,13 @@
 import React from "react";
-import Delete from "../buttons/Delete";
-import Study from "../buttons/Study";
-import View from "../buttons/View";
+import Buttons from "../buttons/Buttons";
 
-function DeckPreview({deck, handleDelete}) {
+function DeckPreview({deck, handleDelete, index}) {
     return (
         <div>
             <h3>{deck.name}</h3>
             <p>{deck.description}</p>
             <div>
-                <View id={deck.id}/>
-                <Study id={deck.id}/>
-                <Delete mode="deck" id={deck.id} handleDelete={handleDelete}/>
+                <Buttons key={index} names={["view", "study", "delete-deck"]} deckId={deck.id} handleDelete={handleDelete}/>
             </div>
         </div>
     );
