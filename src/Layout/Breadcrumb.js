@@ -22,7 +22,7 @@ function Breadcrumb({deck}) {
                </Route>
                <Route path={`/decks/${deck.id}/cards/new`}>
                    <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
-                   <button disabled>Add Cards</button>
+                   <button disabled>Add Card</button>
                </Route>
                <Route path={`/decks/${deck.id}/cards/${cardId}/edit`}>
                    <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>

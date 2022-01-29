@@ -4,7 +4,7 @@ function Buttons({names, deckId, cardId, handleDelete}){
     const buttons = []
     for(let name of names){
         switch(name){
-            case "add-cards": 
+            case "add-card": 
                 buttons.push(
                     <a key={"add-card"} href={`/decks/${deckId}/cards/new`}>
                         <button>Add Card</button>

@@ -34,7 +34,7 @@ function Layout() {
     return () => {
       abortController.abort();
     }
-  }, [cardId]);
+  }, []);
 
   async function handleDeckDelete(id){
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){

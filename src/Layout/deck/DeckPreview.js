@@ -1,13 +1,16 @@
 import React from "react";
 import Buttons from "../buttons/Buttons";
 
-function DeckPreview({deck, handleDelete, index}) {
+function DeckPreview({deck, handleDelete}) {
+    const theDeck = deck ? deck : {cards: []};
+
     return (
         <div>
-            <h3>{deck.name}</h3>
-            <p>{deck.description}</p>
+            <h3>{theDeck.name}</h3>
+            <h6>{theDeck.cards.length} cards</h6>
+            <p>{theDeck.description}</p>
             <div>
-                <Buttons key={index} names={["view", "study", "delete-deck"]} deckId={deck.id} handleDelete={handleDelete}/>
+                <Buttons names={["view", "study", "delete-deck"]} deckId={deck.id} handleDelete={handleDelete}/>
             </div>
         </div>
     );

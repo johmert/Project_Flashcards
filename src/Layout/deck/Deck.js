@@ -30,8 +30,6 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
 
     async function newCard(deckId, card){
         await createCard(deckId, card, signal);
-        history.push(`/decks/${deckId}`);
-        getDeck();
     }
     
     useEffect(() => {   
@@ -41,11 +39,8 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
         }
       }, []);
     
-    const cards = deck.cards;
-    let cardsListed;
-    if(cards){
-        cardsListed = cards.map((card) => <CardPreview key={card.id} card={card} handleDelete={handleCardDelete} deckId={deckId} />)
-    }
+    const cards = deck.cards ? deck.cards : [];
+    const cardsListed = cards.map((card) => <CardPreview key={card.id} card={card} handleDelete={handleCardDelete} deckId={deckId} />)
 
     return (
         <div id={`deck-${deckId}`}>
@@ -53,8 +48,9 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
             <Switch>
                 <Route exact path={`/decks/${deckId}`}>
                     <h1>{deck.name}</h1>
+                    <h6>{cards.length} cards</h6>
                     <h6>{deck.description}</h6>
-                    <Buttons cardId={cardId} deckId={deckId} names={["edit-deck", "study", "add-cards", "delete-deck"]} handleDelete={handleDeckDelete}/>
+                    <Buttons cardId={cardId} deckId={deckId} names={["edit-deck", "study", "add-card", "delete-deck"]} handleDelete={handleDeckDelete}/>
                     {cardsListed}
                 </Route>
                 <Route path={`/decks/:deckId/study`}>
