@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import {readCard, readDeck} from "../../utils/api";
-import Buttons from "../buttons/Buttons";
+import Buttons from "../components/Buttons";
 
 function DeckStudy() {
     const [deck, setDeck] = useState({});

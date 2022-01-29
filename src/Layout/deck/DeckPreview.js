@@ -1,5 +1,5 @@
 import React from "react";
-import Buttons from "../buttons/Buttons";
+import Buttons from "../components/Buttons";
 
 function DeckPreview({deck, handleDelete}) {
     const theDeck = deck ? deck : {cards: []};

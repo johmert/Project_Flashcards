@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Route, Switch, useHistory, useParams} from "react-router-dom";
-import Breadcrumb from "../Breadcrumb";
+import Breadcrumb from "../components/Breadcrumb";
 import {createCard, readDeck} from "../../utils/api/index";
-import Buttons from "../buttons/Buttons";
+import Buttons from "../components/Buttons";
 import DeckStudy from "./DeckStudy";
 import AddCard from "../cards/AddCard";
 import CardPreview from "../cards/CardPreview";

@@ -1,5 +1,5 @@
 import React from "react";
-import Buttons from "../buttons/Buttons"
+import Buttons from "../components/Buttons"
 
 function CardPreview({card, handleDelete, deckId}){    
     return (
