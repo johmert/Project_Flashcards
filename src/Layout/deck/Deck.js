@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from "react";
-import {Route, Switch, useHistory, useParams} from "react-router-dom";
+import {Route, Switch, useParams } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumb";
-import {createCard, readDeck} from "../../utils/api/index";
+import {createCard, createDeck, readDeck, updateCard, updateDeck} from "../../utils/api/index";
 import Buttons from "../components/Buttons";
 import DeckStudy from "./DeckStudy";
-import AddCard from "../cards/AddCard";
+import FormInput from "../components/FormInput";
 import CardPreview from "../cards/CardPreview";
 import Card from "../cards/Card";
-import DeckForm from "./DeckForm";
 import NotFound from "../NotFound";
 
-function Deck({handleCardDelete, handleDeckDelete, cardId}) {
+function Deck({handleCardDelete, handleDeckDelete, cardId, addCard, editCard, editDeck}) {
     const [deck, setDeck] = useState({});
     const {deckId} = useParams();
     const abortController = new AbortController();
-    const history = useHistory();
     const signal = abortController.signal;
 
     async function getDeck() {
@@ -26,10 +24,6 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
                 throw error;
             }
         }
-    }
-
-    async function newCard(deckId, card){
-        await createCard(deckId, card, signal);
     }
     
     useEffect(() => {   
@@ -57,10 +51,10 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
                     <DeckStudy />
                 </Route>
                 <Route path={`/decks/${deckId}/edit`}>
-                    <DeckForm mode="edit" deck={deck}/>
+                    <FormInput mode="edit" type="deck" deck={deck} editDeck={editDeck}/>
                 </Route>
                 <Route path={`/decks/${deckId}/cards/new`}>
-                    <AddCard deck={deck} deckId={deckId} newCard={newCard}/>
+                    <FormInput mode="add" type="cards" deckId={deckId} addCard={addCard}/>
                 </Route>
                 <Route path={`/decks/${deckId}/cards/:cardId/edit`}>
                     <Card deck={deck} deckId={deckId}/>
