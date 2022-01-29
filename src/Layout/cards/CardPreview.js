@@ -6,7 +6,7 @@ function CardPreview({card, handleDelete, deckId}){
         <div>        
             <p>{card.front}</p>
             <p>{card.back}</p>
-            <Buttons names={["edit-card, delete-card"]}deckId={deckId} cardId={card.id} handleDelete={handleDelete} />
+            <Buttons names={["edit-card", "delete-card"]}deckId={deckId} cardId={card.id} handleDelete={handleDelete} />
         </div>
     );
 }

@@ -6,8 +6,8 @@ function Buttons({names, deckId, cardId, handleDelete}){
         switch(name){
             case "add-cards": 
                 buttons.push(
-                    <a key={"add-cards"} href={`/decks/${deckId}/cards/new`}>
-                        <button>Add Cards</button>
+                    <a key={"add-card"} href={`/decks/${deckId}/cards/new`}>
+                        <button>Add Card</button>
                     </a>
                 );
                 break;

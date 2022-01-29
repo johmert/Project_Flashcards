@@ -54,7 +54,7 @@ function Deck({handleCardDelete, handleDeckDelete, cardId}) {
                 <Route exact path={`/decks/${deckId}`}>
                     <h1>{deck.name}</h1>
                     <h6>{deck.description}</h6>
-                    <Buttons cardId={cardId} deckId={deckId} names={["edit-deck, study, add-cards, delete-deck"]} handleDelete={handleDeckDelete}/>
+                    <Buttons cardId={cardId} deckId={deckId} names={["edit-deck", "study", "add-cards", "delete-deck"]} handleDelete={handleDeckDelete}/>
                     {cardsListed}
                 </Route>
                 <Route path={`/decks/:deckId/study`}>
