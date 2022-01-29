@@ -29,7 +29,7 @@ function EditCard({deckId, card}){
         window.location.reload(false);
     }
 
-    if(formData.front === undefined){
+    if(formData.front === undefined && formData.back === undefined){
         return <NotFound/>
     }
 

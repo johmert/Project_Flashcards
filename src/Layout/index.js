@@ -5,7 +5,6 @@ import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
 import Deck from "./deck/Deck";
-import CreateDeck from "./buttons/CreateDeck";
 import DeckForm from "./deck/DeckForm";
 
 function Layout() {
@@ -20,7 +19,7 @@ function Layout() {
     try {
       const response = await listDecks(signal);
       setDecks(response);
-      const newCardId = Number.isInteger(response[response.length-1].cards[0]) ? response[response.length-1].cards[0] : 1;
+      const newCardId = response[response.length] ? response[response.length-1].cards[0] : 1;
       setCardId(newCardId);
     } catch(error) {
       if(error.name !== "AbortError"){
@@ -67,7 +66,6 @@ function Layout() {
       <div className="container">
         <Switch>
           <Route exact path="/">
-            <CreateDeck />
             <DeckList decks={decks} handleDelete={handleDeckDelete}/>
           </Route>
           <Route path="/decks/new">
