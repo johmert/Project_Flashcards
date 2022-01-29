@@ -25,8 +25,9 @@ function DeckStudy() {
 
     async function getDeck(){
         const response = await readDeck(deckId, signal);
+        const cards = response.cards[0] ? response.cards : [{id: 1}];
         setDeck(response);
-        setStudy({id: response.cards[0].id, number: 1, total: response.cards.length})
+        setStudy({id: cards[0].id, number: 1, total: cards.length})
     }
 
     useEffect(() => {
