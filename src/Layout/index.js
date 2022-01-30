@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
-import {createCard, createDeck, deleteCard, deleteDeck, listDecks, updateCard, updateDeck} from "../utils/api/index"
+import { createCard, createDeck, deleteCard, deleteDeck, listDecks, updateCard, updateDeck } from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
@@ -9,18 +9,21 @@ import FormInput from "./components/FormInput";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
-  const [cardId, setCardId] = useState(1);
   const abortController = new AbortController();
   const signal = abortController.signal;
   const history = useHistory();
-  
 
+  useEffect(() => {
+    getDecks();
+    return () => {
+      abortController.abort();
+    }
+  }, []);
+  
   async function getDecks() {
     try {
       const response = await listDecks(signal);
       setDecks(response);
-      const newCardId = response[response.length] ? response[response.length-1].cards[0] : 1;
-      setCardId(newCardId);
     } catch(error) {
       if(error.name !== "AbortError"){
         throw error;
@@ -53,27 +56,19 @@ function Layout() {
     return edited.id;
   }
 
-  useEffect(() => {
-    getDecks();
-    return () => {
-      abortController.abort();
-    }
-  }, []);
-
   async function handleDeckDelete(id){
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
         await deleteDeck(id, signal);
     }
     history.push("/");
-    await getDecks();
+    getDecks();
   }
 
   async function handleCardDelete(id, deckId){
     if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
       await deleteCard(id, signal);
-  }
-    history.push(`/decks/${deckId}`);
-    window.location.reload(false);
+      getDecks();
+    }
   }
 
   return (
@@ -90,8 +85,7 @@ function Layout() {
           <Route path="/decks/:deckId">
               <Deck 
                 handleDeckDelete={handleDeckDelete} 
-                handleCardDelete={handleCardDelete} 
-                cardId={cardId}
+                handleCardDelete={handleCardDelete}
                 addCard={addCard}
                 editCard={editCard}
                 editDeck={editDeck}

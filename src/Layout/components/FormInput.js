@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { readCard, readDeck } from "../../utils/api";
-import Breadcrumb from "./Breadcrumb";
 import Form from "./Form"
+import Breadcrumb from "./Breadcrumb";
 
-function FormInput({mode, type, id, cardId, addDeck, editDeck, addCard, editCard}){
-    const keys = type === "deck" ? ["name", "description"] : ["front", "back"];
+function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
+    const keys = (type === "deck")? ["name", "description"] : ["front", "back"];
     const initForm = {
         [keys[0]]: "",
         [keys[1]]: "",
     };
-    const [deck, setDeck] = useState({});
     const [formData, setFormData] = useState({...initForm});
+    const [deck, setDeck] = useState({});
     const history = useHistory();
+    let { cardId, deckId } = useParams();
     const abortController = new AbortController();
     const signal = abortController.signal;
-    let deckId = id;
 
     useEffect(() => {
         getDeck();
@@ -25,7 +25,7 @@ function FormInput({mode, type, id, cardId, addDeck, editDeck, addCard, editCard
     }, []);
 
     async function getDeck(){
-        if(type === "deck" && mode !== "edit") return;
+        if(type === "deck" && mode === "create") return;
         try {
             const response = await readDeck(deckId, signal);
             setDeck(response);
@@ -77,10 +77,11 @@ function FormInput({mode, type, id, cardId, addDeck, editDeck, addCard, editCard
 
     return (
         <div>
+            <Breadcrumb page={`${mode}-${type}`} deckId={parseInt(deckId)} cardId={cardId ? parseInt(cardId) : null}/>
             <h1>
-                    {type === "card" && `${deck.name}:`}
-                    {mode.charAt(0).toUpperCase() + mode.slice(1)}&nbsp;
-                    {type.charAt(0).toUpperCase() + type.slice(1)}&nbsp;
+                {type === "card" && `${deck.name}:`}
+                {mode.charAt(0).toUpperCase() + mode.slice(1)}&nbsp;
+                {type.charAt(0).toUpperCase() + type.slice(1)}&nbsp;
             </h1>
             <form onSubmit={handleSubmit}>
                 <Form keys={keys} index={0} handleChange={handleChange} formData={formData}/>

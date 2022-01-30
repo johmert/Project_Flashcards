@@ -1,34 +1,40 @@
 import React from "react";
-import {Route, Switch, useHistory, useParams} from "react-router-dom";
 
-function Breadcrumb({deck}) {
-    const history = useHistory();
-    const cardId = useParams().cardId;
+function Breadcrumb({page, deckName, deckId, cardId}) {
+    const currentPage = () => {
+        switch(page) {
+            case "create-card":
+                return <li className="active">Add Card</li>;
+            case "create-deck":
+                return <li className="active">Create Deck</li>
+            case "edit-card":
+                return <li className="active">Edit Card {cardId}</li>;
+            case "edit-deck":
+                return <li className="active">Edit Deck</li>;
+            case "study":
+                return <li className="active">Study</li>;
+            default: return null;
+        }
+    };
+
+    const deckTitle = () => {
+        if(!deckName || !deckId) return null;
+        return (
+            <li className={`${page === "view" ? "active" : ""}`}>
+                {page === "view" ? deckName : <a href={`/decks/${deckId}`}>{deckName}</a>}
+            </li>
+        );
+    };
 
     return (
         <div>
-           <button onClick={() => history.push("/")}>Home</button>
-           <Switch>
-               <Route exact path={`/decks/${deck.id}`}>
-                    <button disabled>{deck.name}</button>
-               </Route>
-               <Route path={`/decks/${deck.id}/study`}>
-                   <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
-                   <button disabled>Study</button>
-               </Route>
-               <Route path={`/decks/${deck.id}/edit`}>
-                   <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
-                   <button disabled>Edit</button>
-               </Route>
-               <Route path={`/decks/${deck.id}/cards/new`}>
-                   <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
-                   <button disabled>Add Card</button>
-               </Route>
-               <Route path={`/decks/${deck.id}/cards/${cardId}/edit`}>
-                   <button onClick={() => history.push(`/decks/${deck.id}`)}>{deck.name}</button>
-                   <button disabled>Edit Card {cardId}</button>
-               </Route>
-           </Switch>
+            <nav>
+                <ol>
+                    <li><a href="/">Home</a></li>
+                    {deckTitle()}
+                    {currentPage()}
+                </ol>
+            </nav>
         </div>
     );
 }
