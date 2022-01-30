@@ -4,7 +4,7 @@ import { readCard, readDeck } from "../../utils/api";
 import Form from "./Form"
 import Breadcrumb from "./Breadcrumb";
 
-function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
+function FormInput({abortController, mode, type, addDeck, editDeck, addCard, editCard}){
     const keys = (type === "deck")? ["name", "description"] : ["front", "back"];
     const initForm = {
         [keys[0]]: "",
@@ -14,7 +14,6 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
     const [formData, setFormData] = useState({...initForm});
     let { cardId, deckId } = useParams();
     const history = useHistory();
-    const abortController = new AbortController();
     const signal = abortController.signal;
 
     useEffect(() => {
@@ -79,7 +78,7 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
         <div>
             <Breadcrumb page={`${mode}-${type}`} deckName={deck ? deck.name : null} cardId={cardId ? parseInt(cardId) : null} deckId={parseInt(deckId)}  />
             <h1>
-                {type === "card" && `${deck.name}:`}
+                {type === "card" && `${deck.name}: `}
                 {mode.charAt(0).toUpperCase() + mode.slice(1)}&nbsp;
                 {type.charAt(0).toUpperCase() + type.slice(1)}&nbsp;
             </h1>

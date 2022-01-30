@@ -5,10 +5,9 @@ import Breadcrumb from "../components/Breadcrumb";
 import Buttons from "../components/Buttons";
 import CardPreview from "../cards/CardPreview";
 
-function DeckView({handleCardDelete, handleDeckDelete}){
+function DeckView({ abortController, handleCardDelete, handleDeckDelete}){
     const [deck, setDeck] = useState({});
     const {deckId} = useParams();
-    const abortController = new AbortController();
     const signal = abortController.signal;
 
     async function getDeck() {

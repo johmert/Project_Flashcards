@@ -5,25 +5,25 @@ import FormInput from "../components/FormInput";
 import NotFound from "../NotFound";
 import DeckView from "./DeckView";
 
-function Deck({handleCardDelete, handleDeckDelete, addCard, editCard, editDeck}) {
+function Deck({abortController, handleCardDelete, handleDeckDelete, addCard, editCard, editDeck}) {
     const {deckId} = useParams();    
     return (
         <div id={`deck-${deckId}`}>
             <Switch>
                 <Route exact path="/decks/:deckId">
-                    <DeckView handleCardDelete={handleCardDelete} handleDeckDelete={handleDeckDelete}/>
+                    <DeckView abortController={abortController} handleCardDelete={handleCardDelete} handleDeckDelete={handleDeckDelete}/>
                 </Route>
                 <Route path="/decks/:deckId/study">
-                    <DeckStudy />
+                    <DeckStudy abortController={abortController}/>
                 </Route>
                 <Route path="/decks/:deckId/edit">
-                    <FormInput mode="edit" type="deck" editDeck={editDeck}/>
+                    <FormInput abortController={abortController} mode="edit" type="deck" editDeck={editDeck}/>
                 </Route>
                 <Route path="/decks/:deckId/cards/new">
-                    <FormInput mode="add" type="card" addCard={addCard}/>
+                    <FormInput abortController={abortController} mode="add" type="card" addCard={addCard}/>
                 </Route>
                 <Route path="/decks/:deckId/cards/:cardId/edit">
-                    <FormInput mode="edit" type="card" editCard={editCard}/>
+                    <FormInput abortController={abortController} mode="edit" type="card" editCard={editCard}/>
                 </Route>
                 <Route>
                     <NotFound />

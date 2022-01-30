@@ -29,7 +29,6 @@ function Layout() {
         throw error;
       }
     }
-    
   }
 
   async function addCard(id, card){
@@ -80,10 +79,11 @@ function Layout() {
             <DeckList decks={decks} handleDelete={handleDeckDelete}/>
           </Route>
           <Route path="/decks/new">
-            <FormInput mode="create" type="deck" addDeck={addDeck}/>
+            <FormInput abortController={abortController} mode="create" type="deck" addDeck={addDeck}/>
           </Route>
           <Route path="/decks/:deckId">
-              <Deck 
+              <Deck
+                abortController={abortController} 
                 handleDeckDelete={handleDeckDelete} 
                 handleCardDelete={handleCardDelete}
                 addCard={addCard}
