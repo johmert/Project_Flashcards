@@ -10,10 +10,10 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
         [keys[0]]: "",
         [keys[1]]: "",
     };
-    const [formData, setFormData] = useState({...initForm});
     const [deck, setDeck] = useState({});
-    const history = useHistory();
+    const [formData, setFormData] = useState({...initForm});
     let { cardId, deckId } = useParams();
+    const history = useHistory();
     const abortController = new AbortController();
     const signal = abortController.signal;
 
@@ -77,7 +77,7 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
 
     return (
         <div>
-            <Breadcrumb page={`${mode}-${type}`} deckId={parseInt(deckId)} cardId={cardId ? parseInt(cardId) : null}/>
+            <Breadcrumb page={`${mode}-${type}`} deckName={deck ? deck.name : null} cardId={cardId ? parseInt(cardId) : null} deckId={parseInt(deckId)}  />
             <h1>
                 {type === "card" && `${deck.name}:`}
                 {mode.charAt(0).toUpperCase() + mode.slice(1)}&nbsp;

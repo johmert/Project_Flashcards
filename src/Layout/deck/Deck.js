@@ -20,10 +20,10 @@ function Deck({handleCardDelete, handleDeckDelete, addCard, editCard, editDeck})
                     <FormInput mode="edit" type="deck" editDeck={editDeck}/>
                 </Route>
                 <Route path="/decks/:deckId/cards/new">
-                    <FormInput mode="add" type="cards" addCard={addCard}/>
+                    <FormInput mode="add" type="card" addCard={addCard}/>
                 </Route>
                 <Route path="/decks/:deckId/cards/:cardId/edit">
-                    <FormInput type="card" mode="edit" editCard={editCard}/>
+                    <FormInput mode="edit" type="card" editCard={editCard}/>
                 </Route>
                 <Route>
                     <NotFound />
