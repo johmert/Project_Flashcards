@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { readCard, readDeck } from "../../utils/api";
-import Form from "./Form"
+import CardForm from "./CardForm";
+import DeckForm from "./DeckForm";
 import Breadcrumb from "./Breadcrumb";
 
 function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
@@ -13,12 +14,16 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
     const [deck, setDeck] = useState({});
     const [formData, setFormData] = useState({...initForm});
     let { cardId, deckId } = useParams();
+    cardId = parseInt(cardId);
+    deckId = parseInt(deckId);
     const history = useHistory();
     const abortController = new AbortController();
     const signal = abortController.signal;
+    const submitButton = (type === "card")? "Save" : "Submit";
 
     useEffect(() => {
         getDeck();
+        console.log(formData)
         return () => {
             abortController.abort();
         };
@@ -61,15 +66,15 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
         };
 
         if(mode === "edit"){
-            newItem["id"] = (type === "deck")? parseInt(deckId) : parseInt(cardId);
+            newItem["id"] = (type === "deck")? deckId : cardId;
             if(type === "card"){
-                newItem["deckId"] = parseInt(deckId);
+                newItem["deckId"] = deckId;
             }
         }
 
-        const index = (mode === "edit")?
-            ((type === "deck")? await editDeck(newItem) : await editCard(newItem)) :
-            ((type === "deck")? await addDeck(newItem) : await addCard(newItem, deckId));
+        const index = (type === "deck")?
+            ((mode === "edit")? await editDeck(newItem) : await addDeck(newItem)) :
+            ((mode === "edit")? await editCard(newItem) : await addCard(newItem, deckId));
         
         if(mode === "create" && type === "deck") deckId = index;
         history.push(`/decks/${deckId}`);
@@ -77,17 +82,20 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
 
     return (
         <div>
-            <Breadcrumb page={`${mode}-${type}`} deckName={deck ? deck.name : null} cardId={cardId ? parseInt(cardId) : null} deckId={parseInt(deckId)}  />
+            <Breadcrumb page={`${mode}-${type}`} deckName={deck ? deck.name : null} cardId={cardId ? cardId : null} deckId={deckId}  />
             <h1>
                 {type === "card" && `${deck.name}:`}
                 {mode.charAt(0).toUpperCase() + mode.slice(1)}&nbsp;
                 {type.charAt(0).toUpperCase() + type.slice(1)}&nbsp;
             </h1>
             <form onSubmit={handleSubmit}>
-                <Form keys={keys} index={0} handleChange={handleChange} formData={formData}/>
-                <Form keys={keys} index={1} handleChange={handleChange} formData={formData}/>
+                {
+                    type === "deck" ?
+                    <DeckForm handleChange={handleChange} formData={formData}/> :
+                    <CardForm handleChange={handleChange} formData={formData}/>
+                }
                 <a href="/"><button type="button">Cancel</button></a>
-                <button type="submit">Submit</button>
+                <button type="submit">{submitButton}</button>
             </form>
         </div>
     );
