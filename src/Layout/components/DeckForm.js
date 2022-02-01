@@ -1,11 +1,11 @@
 import React from "react";
 
-function DeckForm({handleChange, formData}){
+function DeckForm({formData, handleChange}){
     return (
         <div>
             <label>
                 Name: 
-                <input name="name" type="text" onChange={handleChange} value={formData["name"]}/>
+                <input name={formData["name"]} type="text" onChange={handleChange} value={formData["name"]}/>
             </label>
             <label>
                 Description: 

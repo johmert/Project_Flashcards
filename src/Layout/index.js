@@ -68,6 +68,7 @@ function Layout() {
     if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
       await deleteCard(id, signal);
       getDecks();
+      window.location.reload(false);
     }
   }
 

@@ -35,14 +35,14 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
             const response = await readDeck(deckId, signal);
             setDeck(response);
             if(mode === "edit"){
-                if(deck && type === "deck"){
-                    initForm[keys[0]] = deck.name;
-                    initForm[keys[1]] = deck.description;
+                if(type === "deck"){
+                    initForm[keys[0]] = deck["name"];
+                    initForm[keys[1]] = deck["description"];
                 } else if (type === "card") {
                     const card = await readCard(cardId, signal);
                     if(card){
-                        initForm[keys[0]] = card.front;
-                        initForm[keys[1]] = card.back;
+                        initForm[keys[0]] = card["front"];
+                        initForm[keys[1]] = card["back"];
                     }
                 }
             }
@@ -74,9 +74,10 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
 
         const index = (type === "deck")?
             ((mode === "edit")? await editDeck(newItem) : await addDeck(newItem)) :
-            ((mode === "edit")? await editCard(newItem) : await addCard(newItem, deckId));
+            ((mode === "edit")? await editCard(newItem) : await addCard(deckId, newItem));
         
         if(mode === "create" && type === "deck") deckId = index;
+        getDeck();
         history.push(`/decks/${deckId}`);
     }
 
@@ -84,7 +85,7 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
         <div>
             <Breadcrumb page={`${mode}-${type}`} deckName={deck ? deck.name : null} cardId={cardId ? cardId : null} deckId={deckId}  />
             <h1>
-                {type === "card" && `${deck.name}:`}
+                {type === "card" && `${deck.name}: `}
                 {mode.charAt(0).toUpperCase() + mode.slice(1)}&nbsp;
                 {type.charAt(0).toUpperCase() + type.slice(1)}&nbsp;
             </h1>
