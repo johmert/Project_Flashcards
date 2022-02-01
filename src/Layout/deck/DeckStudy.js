@@ -5,12 +5,13 @@ import Buttons from "../components/Buttons";
 import Card from "../cards/Card";
 import Breadcrumb from "../components/Breadcrumb";
 
-function DeckStudy({abortController}) {
+function DeckStudy() {
     const [cardNumber, setCardNumber] = useState(0);
     const [deck, setDeck] = useState({});
     const [flipped, setFlipped] = useState(false);
     const { deckId } = useParams();
     const history = useHistory();
+    const abortController = new AbortController();
     const signal = abortController.signal;
 
     async function getDeck(){

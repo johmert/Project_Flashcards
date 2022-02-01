@@ -5,7 +5,7 @@ import CardForm from "./CardForm";
 import DeckForm from "./DeckForm";
 import Breadcrumb from "./Breadcrumb";
 
-function FormInput({abortController, mode, type, addDeck, editDeck, addCard, editCard}){
+function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
     const keys = (type === "deck")? ["name", "description"] : ["front", "back"];
     const initForm = {
         [keys[0]]: "",
@@ -17,6 +17,7 @@ function FormInput({abortController, mode, type, addDeck, editDeck, addCard, edi
     cardId = parseInt(cardId);
     deckId = parseInt(deckId);
     const history = useHistory();
+    const abortController = new AbortController();
     const signal = abortController.signal;
     const submitButton = (type === "card")? "Save" : "Submit";
 
