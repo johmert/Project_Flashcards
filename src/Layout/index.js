@@ -49,10 +49,9 @@ function Layout() {
     return edited.id;
   }
 
-  async function editDeck(editedDeck){
-    const edited = await updateDeck(editedDeck, signal);
+  async function editDeck(deck){
+    await updateDeck(deck, signal);
     getDecks();
-    return edited.id;
   }
 
   async function handleDeckDelete(id){

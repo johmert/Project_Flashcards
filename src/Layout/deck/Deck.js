@@ -4,6 +4,7 @@ import DeckStudy from "./DeckStudy";
 import FormInput from "../components/FormInput";
 import NotFound from "../NotFound";
 import DeckView from "./DeckView";
+import EditDeck from "./EditDeck";
 
 function Deck({handleCardDelete, handleDeckDelete, addCard, editCard, editDeck}) {
     const {deckId} = useParams();    
@@ -17,7 +18,7 @@ function Deck({handleCardDelete, handleDeckDelete, addCard, editCard, editDeck})
                     <DeckStudy/>
                 </Route>
                 <Route path="/decks/:deckId/edit">
-                    <FormInput mode="edit" type="deck" editDeck={editDeck}/>
+                    <EditDeck editDeck={editDeck}/>
                 </Route>
                 <Route path="/decks/:deckId/cards/new">
                     <FormInput mode="create" type="card" addCard={addCard}/>

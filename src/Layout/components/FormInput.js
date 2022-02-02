@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { readCard, readDeck } from "../../utils/api";
-import CardForm from "./CardForm";
-import DeckForm from "./DeckForm";
+import CardForm from "../cards/CardForm";
+import AddDeck from "../deck/AddDeck";
 import Breadcrumb from "./Breadcrumb";
 
-function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
+function FormInput({mode, type, addDeck, addCard, editCard}){
     const keys = (type === "deck")? ["name", "description"] : ["front", "back"];
     const initForm = {
         [keys[0]]: "",
@@ -35,10 +35,7 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
             const response = await readDeck(deckId, signal);
             setDeck(response);
             if(mode === "edit"){
-                if(type === "deck"){
-                    initForm[keys[0]] = deck["name"];
-                    initForm[keys[1]] = deck["description"];
-                } else if (type === "card") {
+                if (type === "card") {
                     const card = await readCard(cardId, signal);
                     if(card){
                         initForm[keys[0]] = card["front"];
@@ -65,20 +62,17 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
             [keys[1]]: formData[keys[1]],
         };
 
-        if(mode === "edit"){
-            newItem["id"] = (type === "deck")? deckId : cardId;
-            if(type === "card"){
+        if(mode === "edit" && type === "card"){
                 newItem["deckId"] = deckId;
-            }
         }
 
-        const index = (type === "deck")?
-            ((mode === "edit")? await editDeck(newItem) : await addDeck(newItem)) :
-            ((mode === "edit")? await editCard(newItem) : await addCard(deckId, newItem));
+        const index = (type === "card")?
+            ((mode === "edit")? await editCard(newItem) : await addCard(deckId, newItem)) :
+            await addDeck(newItem);
         
         if(mode === "create" && type === "deck") deckId = index;
-        getDeck();
-        history.push(`/decks/${deckId}`);
+        if(mode === "create" && type === "card") setFormData({ front: "", back: ""}); 
+        if(mode !== "create" && type !== "card") history.push(`/decks/${deckId}`);
     }
 
     return (
@@ -97,7 +91,7 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
             <form onSubmit={handleSubmit}>
                 {
                     type === "deck" ?
-                    <DeckForm handleChange={handleChange} formData={formData}/> :
+                    <AddDeck handleChange={handleChange}/> :
                     <CardForm handleChange={handleChange} formData={formData}/>
                 }
                 <a href="/"><button type="button">Cancel</button></a>
