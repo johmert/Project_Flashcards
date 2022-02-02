@@ -39,8 +39,10 @@ function DeckView({handleCardDelete, handleDeckDelete}){
             <h6>{deck.cards.length} cards</h6>
             <h6>{deck.description}</h6>
             <Buttons deckId={deck.id} names={["edit-deck", "study", "add-card", "delete-deck"]} handleDelete={handleDeckDelete}/>
-            <h3>Cards:</h3>
-            {cardsListed}
+            <div class="bg-light border mt-3 p-2">
+                <h3>Cards:</h3>
+                {cardsListed}
+            </div>
         </div>
     );
 }
