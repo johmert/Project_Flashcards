@@ -3,7 +3,7 @@ import {useHistory, useParams} from "react-router-dom";
 import {readDeck} from "../../utils/api/index";
 import Breadcrumb from "../components/Breadcrumb";
 
-function EditDeck({editDeck}){
+function DeckForm({mode, addDeck, editDeck}){
     const initialState = {
         name: "",
         description: ""
@@ -23,6 +23,7 @@ function EditDeck({editDeck}){
     }, []);
     
     async function getDeck(){
+        if(mode === "create") return;
         try {
             const response = await readDeck(deckId, signal);
             setDeck(response);
@@ -38,22 +39,29 @@ function EditDeck({editDeck}){
         setFormData({...formData, [target.name]: target.value});
     }
 
-    function handleSubmit(event){
+    async function handleSubmit(event){
         event.preventDefault();
         const updatedDeck = {name: formData.name, description: formData.description, id: deckId}
-        editDeck(updatedDeck);
-        history.push(`/decks/${deckId}`);
-        window.location.reload(false);
+        
+        if(mode === "edit"){
+            editDeck(updatedDeck)
+            history.push(`/decks/${deckId}`);
+            window.location.reload(false);
+        } else {
+            addDeck(updatedDeck);
+            history.push("/");
+            window.location.reload(false);
+        }
     }
 
     return (
         <div>
             <Breadcrumb 
-                page="edit-deck" 
+                page={`${mode}-deck`} 
                 deckName={deck.name}
                 deckId={deck.id}  
             />
-            <h1>Edit Deck</h1>
+            <h1>{mode.charAt(0).toUpperCase() + mode.slice(1)} Deck</h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     Name: 
@@ -64,11 +72,11 @@ function EditDeck({editDeck}){
                     Description:
                 </label> 
                 <textarea name="description" onChange={handleChange} value={formData.description}/>
-                <button onClick={() => history.goBack()}>Cancel</button>
-                <input type="submit" value="Submit"/>
+                <button className="btn btn-danger" onClick={() => history.goBack()}>Cancel</button>
+                <button className="btn btn-success" type="submit">Submit</button>
             </form>
         </div>
     );
 }
 
-export default EditDeck;
+export default DeckForm;

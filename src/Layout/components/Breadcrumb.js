@@ -21,7 +21,7 @@ function Breadcrumb({page, deckName, deckId, cardId}) {
         if(!deckName || !deckId) return null;
         return (
             <li className={`${page === "view" ? "active" : ""}`}>
-                {page === "view" ? deckName : <a href={`/decks/${deckId}`} class="mr-2">{deckName}</a>}
+                {page === "view" ? deckName : <a href={`/decks/${deckId}`} className="mr-2">{deckName}</a>}
             </li>
         );
     };
@@ -29,8 +29,8 @@ function Breadcrumb({page, deckName, deckId, cardId}) {
     return (
         <div>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrum-item"><a href="/" class="mr-2">Home</a></li>
+                <ol className="breadcrumb">
+                    <li className="breadcrum-item"><a href="/" className="mr-2">Home</a></li>
                     {deckTitle()}
                     {currentPage()}
                 </ol>

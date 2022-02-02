@@ -4,11 +4,11 @@ function Card({cardNumber, deck, flip, flipped, next, side}){
     return (
         <div>
             <h1>{deck.name}: Study</h1>
-            <h2>Card {cardNumber + 1} of {deck.cards.length}</h2>
-            <p>{deck.cards[cardNumber][side]}</p>
-            <button onClick={flip}>Flip</button>
+            <h3>Card {cardNumber + 1} of {deck.cards.length}</h3>
+            <p className="bg-light border p-3 font-weight-bold">{deck.cards[cardNumber][side]}</p>
+            <button className="btn btn-info p-1 mr-2" onClick={flip}>Flip</button>
             {flipped &&
-                <button onClick={next}>Next</button>
+                <button className="btn btn-warning p-1" onClick={next}>Next</button>
             }
         </div>
     );

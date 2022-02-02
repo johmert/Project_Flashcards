@@ -5,7 +5,7 @@ import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
 import Deck from "./deck/Deck";
-import FormInput from "./components/FormInput";
+import DeckForm from "./deck/DeckForm";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
@@ -38,9 +38,8 @@ function Layout() {
   }
 
   async function addDeck(newDeck){
-    const created = await createDeck(newDeck, signal);
+    await createDeck(newDeck, signal);
     getDecks();
-    return created.id;
   }
 
   async function editCard(card){
@@ -79,7 +78,7 @@ function Layout() {
             <DeckList decks={decks} handleDelete={handleDeckDelete}/>
           </Route>
           <Route path="/decks/new">
-            <FormInput mode="create" type="deck" addDeck={addDeck}/>
+            <DeckForm mode="create" addDeck={addDeck}/>
           </Route>
           <Route path="/decks/:deckId">
               <Deck
