@@ -3,7 +3,7 @@ import Buttons from "../components/Buttons";
 
 function DeckPreview({deck, handleDelete}) {
     return (
-        <div>
+        <div class="border my-4 p-2">
             <h3>{deck.name}</h3>
             <h6>{deck.cards.length} cards</h6>
             <p>{deck.description}</p>
