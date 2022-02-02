@@ -5,12 +5,14 @@ function DeckForm({formData, handleChange}){
         <div>
             <label>
                 Name: 
-                <input name={formData["name"]} type="text" onChange={handleChange} value={formData["name"]}/>
             </label>
+            <input name="name" type="text" onChange={handleChange} value={formData["name"]}/>
+            
             <label>
-                Description: 
-                <textarea name="description" onChange={handleChange} value={formData["description"]}/>
-            </label>
+                Description:
+            </label> 
+            <textarea name="description" onChange={handleChange} value={formData["description"]}/>
+            
         </div>
     );
 }

@@ -83,7 +83,12 @@ function FormInput({mode, type, addDeck, editDeck, addCard, editCard}){
 
     return (
         <div>
-            <Breadcrumb page={`${mode}-${type}`} deckName={deck ? deck.name : null} cardId={cardId ? cardId : null} deckId={deckId}  />
+            <Breadcrumb 
+                page={`${mode}-${type}`} 
+                deckName={deck ? deck.name : null} 
+                cardId={cardId ? cardId : null} 
+                deckId={deckId}  
+            />
             <h1>
                 {type === "card" && `${deck.name}: `}
                 {mode.charAt(0).toUpperCase() + mode.slice(1)}&nbsp;
