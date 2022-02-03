@@ -27,6 +27,7 @@ function DeckView({handleCardDelete, handleDeckDelete}){
         return () => {
           abortController.abort();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
     
     if(Object.keys(deck).length === 0) return null;
@@ -39,7 +40,7 @@ function DeckView({handleCardDelete, handleDeckDelete}){
             <h6>{deck.cards.length} cards</h6>
             <h6>{deck.description}</h6>
             <Buttons deckId={deck.id} names={["edit-deck", "study", "add-card", "delete-deck"]} handleDelete={handleDeckDelete}/>
-            <div class="bg-light border mt-3 p-2">
+            <div className="bg-light border mt-3 p-2">
                 <h3>Cards:</h3>
                 {cardsListed}
             </div>

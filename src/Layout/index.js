@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
-import { createCard, createDeck, deleteCard, deleteDeck, listDecks, updateCard, updateDeck } from "../utils/api/index"
+import { deleteCard, deleteDeck, listDecks } from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
@@ -18,7 +18,8 @@ function Layout() {
     return () => {
       abortController.abort();
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getDecks]);
   
   async function getDecks() {
     try {
@@ -31,40 +32,16 @@ function Layout() {
     }
   }
 
-  async function addCard(id, card){
-    const created = await createCard(id, card, signal);
-    getDecks();
-    return created.id;
-  }
-
-  async function addDeck(newDeck){
-    await createDeck(newDeck, signal);
-    getDecks();
-  }
-
-  async function editCard(card){
-    const edited = await updateCard(card, signal);
-    getDecks();
-    return edited.id;
-  }
-
-  async function editDeck(deck){
-    await updateDeck(deck, signal);
-    getDecks();
-  }
-
   async function handleDeckDelete(id){
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
         await deleteDeck(id, signal);
     }
     history.push("/");
-    getDecks();
   }
 
   async function handleCardDelete(id){
     if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
       await deleteCard(id, signal);
-      getDecks();
       window.location.reload(false);
     }
   }
@@ -78,15 +55,12 @@ function Layout() {
             <DeckList decks={decks} handleDelete={handleDeckDelete}/>
           </Route>
           <Route path="/decks/new">
-            <DeckForm mode="create" addDeck={addDeck}/>
+            <DeckForm mode="create"/>
           </Route>
           <Route path="/decks/:deckId">
               <Deck
                 handleDeckDelete={handleDeckDelete} 
                 handleCardDelete={handleCardDelete}
-                addCard={addCard}
-                editCard={editCard}
-                editDeck={editDeck}
                 />
           </Route>
           <Route>

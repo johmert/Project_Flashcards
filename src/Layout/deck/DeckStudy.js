@@ -14,23 +14,22 @@ function DeckStudy() {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    async function getDeck(){
-        try{
-            const response = await readDeck(deckId, signal);
-            setDeck(response);
-        } catch(error){
-            if(error.name !== "AbortError"){
-                throw error;
+    useEffect(() => {
+        async function getDeck(){
+            try{
+                const response = await readDeck(deckId, signal);
+                setDeck(response);
+            } catch(error){
+                if(error.name !== "AbortError"){
+                    throw error;
+                }
             }
         }
-    }
-
-    useEffect(() => {
         getDeck();
-
         return () => {
             abortController.abort();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if(Object.keys(deck).length === 0 || !deck) return null;

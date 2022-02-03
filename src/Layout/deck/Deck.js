@@ -1,10 +1,10 @@
 import React from "react";
 import {Route, Switch, useParams } from "react-router-dom";
 import DeckStudy from "./DeckStudy";
-import FormInput from "../components/FormInput";
 import NotFound from "../NotFound";
 import DeckView from "./DeckView";
 import DeckForm from "./DeckForm";
+import CardForm from "../cards/CardForm";
 
 function Deck({handleCardDelete, handleDeckDelete, addCard, editCard, editDeck}) {
     const {deckId} = useParams();    
@@ -18,13 +18,13 @@ function Deck({handleCardDelete, handleDeckDelete, addCard, editCard, editDeck})
                     <DeckStudy/>
                 </Route>
                 <Route path="/decks/:deckId/edit">
-                    <DeckForm mode="edit" editDeck={editDeck}/>
+                    <DeckForm mode="edit"/>
                 </Route>
                 <Route path="/decks/:deckId/cards/new">
-                    <FormInput mode="create" type="card" addCard={addCard}/>
+                    <CardForm mode="create" addCard={addCard}/>
                 </Route>
                 <Route path="/decks/:deckId/cards/:cardId/edit">
-                    <FormInput mode="edit" type="card" editCard={editCard}/>
+                    <CardForm mode="edit" editCard={editCard}/>
                 </Route>
                 <Route>
                     <NotFound />

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
-import {readDeck} from "../../utils/api/index";
+import {createDeck, readDeck, updateDeck} from "../../utils/api/index";
 import Breadcrumb from "../components/Breadcrumb";
 
-function DeckForm({mode, addDeck, editDeck}){
+function DeckForm({mode}){
     const initialState = {
         name: "",
         description: ""
@@ -19,7 +19,8 @@ function DeckForm({mode, addDeck, editDeck}){
         getDeck();
         return () => {
             abortController.abort();
-        }; 
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, []);
     
     async function getDeck(){
@@ -41,16 +42,13 @@ function DeckForm({mode, addDeck, editDeck}){
 
     async function handleSubmit(event){
         event.preventDefault();
-        const updatedDeck = {name: formData.name, description: formData.description, id: deckId}
-        
+        const newDeck = {name: formData.name, description: formData.description, id: deckId} 
         if(mode === "edit"){
-            editDeck(updatedDeck)
+            await updateDeck(newDeck, signal);
             history.push(`/decks/${deckId}`);
-            window.location.reload(false);
         } else {
-            addDeck(updatedDeck);
+            await createDeck(newDeck, signal);
             history.push("/");
-            window.location.reload(false);
         }
     }
 
