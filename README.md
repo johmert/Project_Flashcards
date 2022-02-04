@@ -12,8 +12,8 @@ A flashcard app, where a user can create new decks, delete decks, edit deck info
 
 ## Technologies
 
+* React / React Router
 * JavaScript
-* Bootstrap 4
 * CSS
 * HTML
 
