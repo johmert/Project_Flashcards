@@ -4,6 +4,7 @@ import {readDeck} from "../../utils/api";
 import Buttons from "../components/Buttons";
 import Card from "../cards/Card";
 import Breadcrumb from "../components/Breadcrumb";
+import PropTypes from "prop-types";
 
 function DeckStudy() {
     const [cardNumber, setCardNumber] = useState(0);
@@ -12,25 +13,31 @@ function DeckStudy() {
     const { deckId } = useParams();
     const history = useHistory();
     const abortController = new AbortController();
-    const signal = abortController.signal;
 
-    useEffect(() => {
-        async function getDeck(){
-            try{
-                const response = await readDeck(deckId, signal);
-                setDeck(response);
-            } catch(error){
-                if(error.name !== "AbortError"){
-                    throw error;
-                }
-            }
-        }
-        getDeck();
-        return () => {
-            abortController.abort();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // get deck when first rendered.
+	useEffect(() => {
+		getDeck();
+		return () => {
+			abortController.abort();
+		};
+
+		
+	}, []);
+	
+	/**
+	 * Fetches the current deck from the database.
+	 */
+	async function getDeck() {
+		try {
+			const response = await readDeck(deckId, abortController.signal);
+			setDeck(response);
+		}
+		catch(error) {
+			if(error.name !== "AbortError") {
+				throw error;
+			}
+		}
+	}
 
     if(Object.keys(deck).length === 0 || !deck) return null;
 
@@ -64,4 +71,9 @@ function DeckStudy() {
         </div>
 }
 
+/*
+DeckStudy.propTypes = {
+	abortController: PropTypes.instanceOf(AbortController).isRequired,
+};
+*/
 export default DeckStudy;
