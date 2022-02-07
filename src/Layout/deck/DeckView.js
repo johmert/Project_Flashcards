@@ -27,7 +27,6 @@ function DeckView({handleCardDelete, handleDeckDelete}){
         return () => {
           abortController.abort();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
     
     if(Object.keys(deck).length === 0) return null;
