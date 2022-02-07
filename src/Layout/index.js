@@ -10,7 +10,6 @@ import DeckForm from "./deck/DeckForm";
 function Layout() {
   const [decks, setDecks] = useState([]);
   const abortController = new AbortController();
-  const signal = abortController.signal;
   const history = useHistory();
 
   useEffect(() => {
@@ -22,7 +21,7 @@ function Layout() {
   
   async function getDecks() {
     try {
-      const response = await listDecks(signal);
+      const response = await listDecks(abortController.signal);
       setDecks(response);
     } catch(error) {
       if(error.name !== "AbortError"){
@@ -33,14 +32,14 @@ function Layout() {
 
   async function handleDeckDelete(id){
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
-        await deleteDeck(id, signal);
+        await deleteDeck(id, abortController.signal);
     }
     history.push("/");
   }
 
   async function handleCardDelete(id){
     if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
-      await deleteCard(id, signal);
+      await deleteCard(id, abortController.signal);
       window.location.reload(false);
     }
   }

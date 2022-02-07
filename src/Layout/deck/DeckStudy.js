@@ -4,7 +4,6 @@ import {readDeck} from "../../utils/api";
 import Buttons from "../components/Buttons";
 import Card from "../cards/Card";
 import Breadcrumb from "../components/Breadcrumb";
-import PropTypes from "prop-types";
 
 function DeckStudy() {
     const [cardNumber, setCardNumber] = useState(0);
@@ -14,7 +13,6 @@ function DeckStudy() {
     const history = useHistory();
     const abortController = new AbortController();
 
-    // get deck when first rendered.
 	useEffect(() => {
 		getDeck();
 		return () => {
@@ -24,9 +22,6 @@ function DeckStudy() {
 		
 	}, []);
 	
-	/**
-	 * Fetches the current deck from the database.
-	 */
 	async function getDeck() {
 		try {
 			const response = await readDeck(deckId, abortController.signal);
@@ -71,9 +66,4 @@ function DeckStudy() {
         </div>
 }
 
-/*
-DeckStudy.propTypes = {
-	abortController: PropTypes.instanceOf(AbortController).isRequired,
-};
-*/
 export default DeckStudy;

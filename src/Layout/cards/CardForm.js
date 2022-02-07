@@ -13,7 +13,6 @@ function CardForm({mode}){
     const { cardId, deckId } = useParams();
     const history = useHistory();
     const abortController = new AbortController();
-    const signal = abortController.signal;
 
     useEffect(() => {
         getDeck();
@@ -24,10 +23,10 @@ function CardForm({mode}){
 
     async function getDeck(){
         try {
-            const response = await readDeck(deckId, signal);
+            const response = await readDeck(deckId, abortController.signal);
             setDeck(response);
             if(mode === "edit"){
-                const card = await readCard(cardId, signal);
+                const card = await readCard(cardId, abortController.signal);
                 if(card){
                     initialState["front"] = card["front"];
                     initialState["back"] = card["back"];

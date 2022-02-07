@@ -11,6 +11,15 @@ function DeckView({handleCardDelete, handleDeckDelete}){
     const abortController = new AbortController();
     const signal = abortController.signal;
 
+
+    
+    useEffect(() => {   
+        getDeck();
+        return () => {
+          abortController.abort();
+        }
+    }, []);
+
     async function getDeck() {
         try{
             const response = await readDeck(deckId, signal);
@@ -21,13 +30,6 @@ function DeckView({handleCardDelete, handleDeckDelete}){
             }
         }
     }
-    
-    useEffect(() => {   
-        getDeck();
-        return () => {
-          abortController.abort();
-        }
-      }, []);
     
     if(Object.keys(deck).length === 0) return null;
     const cardsListed = deck.cards.map((card) => <CardPreview key={card.id} card={card} handleDelete={handleCardDelete} deckId={deck.id} />)

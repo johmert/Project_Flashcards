@@ -13,7 +13,6 @@ function DeckForm({mode}){
     const [deck, setDeck] = useState(initialState);
     const history = useHistory();
     const abortController = new AbortController();
-    const signal = abortController.signal;
     
     useEffect(() => {
         getDeck();
@@ -25,7 +24,7 @@ function DeckForm({mode}){
     async function getDeck(){
         if(mode === "create") return;
         try {
-            const response = await readDeck(deckId, signal);
+            const response = await readDeck(deckId, abortController.signal);
             setDeck(response);
             setFormData({name: response.name, description: response.description});
         } catch(error){
@@ -43,11 +42,12 @@ function DeckForm({mode}){
         event.preventDefault();
         const newDeck = {name: formData.name, description: formData.description, id: deckId} 
         if(mode === "edit"){
-            await updateDeck(newDeck, signal);
+            await updateDeck(newDeck, abortController.signal);
             history.push(`/decks/${deckId}`);
         } else {
-            await createDeck(newDeck, signal);
+            await createDeck(newDeck, abortController.signal);
             history.push("/");
+            window.location.reload(false);
         }
     }
 
