@@ -15,30 +15,30 @@ function CardForm({mode}){
     const abortController = new AbortController();
 
     useEffect(() => {
+        async function getDeck(){
+            try {
+                const response = await readDeck(deckId, abortController.signal);
+                setDeck(response);
+                if(mode === "edit"){
+                    const card = await readCard(cardId, abortController.signal);
+                    if(card){
+                        initialState["front"] = card["front"];
+                        initialState["back"] = card["back"];
+                    }
+                }
+                setFormData({...initialState});
+            } catch (error) {
+                if(error.name !== "AbortError"){
+                    throw error;
+                }
+            }   
+        }
         getDeck();
         return () => {
             abortController.abort();
         };
-    }, []);
-
-    async function getDeck(){
-        try {
-            const response = await readDeck(deckId, abortController.signal);
-            setDeck(response);
-            if(mode === "edit"){
-                const card = await readCard(cardId, abortController.signal);
-                if(card){
-                    initialState["front"] = card["front"];
-                    initialState["back"] = card["back"];
-                }
-            }
-            setFormData({...initialState});
-        } catch (error) {
-            if(error.name !== "AbortError"){
-                throw error;
-            }
-        }   
-    }
+        // eslint-disable-next-line
+    }, [deckId]);
 
     function handleChange({target}){
         setFormData({...formData, [target.name]: target.value});

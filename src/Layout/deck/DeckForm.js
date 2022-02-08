@@ -15,24 +15,24 @@ function DeckForm({mode}){
     const abortController = new AbortController();
     
     useEffect(() => {
+        async function getDeck(){
+            if(mode === "create") return;
+            try {
+                const response = await readDeck(deckId, abortController.signal);
+                setDeck(response);
+                setFormData({name: response.name, description: response.description});
+            } catch(error){
+                if(error.name !== "AbortError"){
+                    throw error;
+                }
+            }
+        }
         getDeck();
         return () => {
             abortController.abort();
         };
-    }, []);
-    
-    async function getDeck(){
-        if(mode === "create") return;
-        try {
-            const response = await readDeck(deckId, abortController.signal);
-            setDeck(response);
-            setFormData({name: response.name, description: response.description});
-        } catch(error){
-            if(error.name !== "AbortError"){
-                throw error;
-            }
-        }
-    }
+        // eslint-disable-next-line
+    }, [deckId]);
     
     function handleChange({target}){
         setFormData({...formData, [target.name]: target.value});

@@ -1,6 +1,26 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { deleteCard, deleteDeck } from "../../utils/api/index"
 
-function Buttons({names, deckId, cardId, handleDelete}){
+function Buttons({ names, deckId, cardId }){
+    const abortController = new AbortController();
+    const history = useHistory();
+
+    async function handleDeckDelete(id){
+        if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
+            await deleteDeck(id, abortController.signal);
+        }
+        history.push("/");
+        window.location.reload(false);
+      }
+    
+      async function handleCardDelete(id){
+        if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
+          await deleteCard(id, abortController.signal);
+        }
+        history.go(0);
+      }
+
     const buttons = []
     for(let name of names){
         switch(name){
@@ -23,7 +43,7 @@ function Buttons({names, deckId, cardId, handleDelete}){
                     <button
                         className="btn btn-danger mx-1" 
                         key={"delete-card"} 
-                        onClick={() => handleDelete(cardId, deckId)}>
+                        onClick={() => handleCardDelete(cardId, deckId)}>
                             Delete
                     </button>
                 );
@@ -33,7 +53,7 @@ function Buttons({names, deckId, cardId, handleDelete}){
                     <button 
                         className="btn btn-danger mx-1"
                         key={"delete-deck"} 
-                        onClick={() => handleDelete(deckId)}>
+                        onClick={() => handleDeckDelete(deckId)}>
                             Delete
                     </button>
                 );

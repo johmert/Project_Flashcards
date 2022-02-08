@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
-import { deleteCard, deleteDeck, listDecks } from "../utils/api/index"
+import { Route, Switch } from "react-router-dom";
+import { listDecks } from "../utils/api/index"
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DeckList from "./deck/DeckList";
@@ -9,57 +9,39 @@ import DeckForm from "./deck/DeckForm";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
-  const abortController = new AbortController();
-  const history = useHistory();
 
   useEffect(() => {
+    const abortController = new AbortController();
+    async function getDecks() {
+      try {
+        const response = await listDecks(abortController.signal);
+        setDecks(response);
+      } catch(error) {
+        if(error.name !== "AbortError"){
+          throw error;
+        }
+      }
+    }
     getDecks();
     return () => {
       abortController.abort();
     }
+    // eslint-disable-next-line
   }, []);
   
-  async function getDecks() {
-    try {
-      const response = await listDecks(abortController.signal);
-      setDecks(response);
-    } catch(error) {
-      if(error.name !== "AbortError"){
-        throw error;
-      }
-    }
-  }
-
-  async function handleDeckDelete(id){
-    if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
-        await deleteDeck(id, abortController.signal);
-    }
-    history.push("/");
-  }
-
-  async function handleCardDelete(id){
-    if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
-      await deleteCard(id, abortController.signal);
-      window.location.reload(false);
-    }
-  }
-
   return (
     <>
       <Header />
       <div className="container">
         <Switch>
           <Route exact path="/">
-            <DeckList decks={decks} handleDelete={handleDeckDelete}/>
+            <DeckList decks={decks}/>
           </Route>
           <Route path="/decks/new">
             <DeckForm mode="create"/>
           </Route>
           <Route path="/decks/:deckId">
-              <Deck
-                handleDeckDelete={handleDeckDelete} 
-                handleCardDelete={handleCardDelete}
-                />
+              <Deck />
           </Route>
           <Route>
             <NotFound />

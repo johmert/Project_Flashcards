@@ -5,34 +5,31 @@ import Breadcrumb from "../components/Breadcrumb";
 import Buttons from "../components/Buttons";
 import CardPreview from "../cards/CardPreview";
 
-function DeckView({handleCardDelete, handleDeckDelete}){
+function DeckView(){
     const [deck, setDeck] = useState({});
     const {deckId} = useParams();
     const abortController = new AbortController();
-    const signal = abortController.signal;
-
-
     
-    useEffect(() => {   
+    useEffect(() => { 
+        async function getDeck() {
+            try{
+                const response = await readDeck(deckId, abortController.signal);
+                setDeck(() => response);
+            } catch(error){
+                if(error.name !== "AbortError"){
+                    throw error;
+                }
+            }
+        }  
         getDeck();
         return () => {
           abortController.abort();
         }
-    }, []);
-
-    async function getDeck() {
-        try{
-            const response = await readDeck(deckId, signal);
-            setDeck(response);
-        } catch(error){
-            if(error.name !== "AbortError"){
-                throw error;
-            }
-        }
-    }
+        // eslint-disable-next-line
+    }, [deckId]);
     
     if(Object.keys(deck).length === 0) return null;
-    const cardsListed = deck.cards.map((card) => <CardPreview key={card.id} card={card} handleDelete={handleCardDelete} deckId={deck.id} />)
+    const cardsListed = deck.cards.map((card) => <CardPreview key={card.id} card={card} deckId={deck.id} />)
 
     return (
         <div>
@@ -40,7 +37,7 @@ function DeckView({handleCardDelete, handleDeckDelete}){
             <h1>{deck.name}</h1>
             <h6>{deck.cards.length} cards</h6>
             <h6>{deck.description}</h6>
-            <Buttons deckId={deck.id} names={["edit-deck", "study", "add-card", "delete-deck"]} handleDelete={handleDeckDelete}/>
+            <Buttons deckId={deck.id} names={["edit-deck", "study", "add-card", "delete-deck"]}/>
             <div className="bg-light border mt-3 p-2">
                 <h3>Cards:</h3>
                 {cardsListed}
